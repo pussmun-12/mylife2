@@ -540,7 +540,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
     $scope.initDiaryJS = function(){
         $('#welcomePage').remove();
         $('#myCarousel').carousel();
-        $('#noscroll').addEventListener('touchmove', function(e){ alert('hej!');e.preventDefault(); });
+        document.getElementById('noscroll').addEventListener('touchmove', function(e){ alert('hej!');e.preventDefault(); });
         $scope.showMenu = false;
         $scope.showFactBoxes = false;
         $scope.factBoxEditMode = false;
