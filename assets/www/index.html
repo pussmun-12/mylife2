@@ -32,6 +32,7 @@
     <script src="js/CategoryController.js"></script>
     <script src="js/angular-spinner.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/fastclick.js"></script>
 
 
 
@@ -87,6 +88,9 @@ document.addEventListener('focusout', function(e) {
     //$("html, body").animate({ scrollTop: "0px" });
 });
 
+$(function() {
+    FastClick.attach(document.body);
+});
 
 //Angular stuff, put in separate files
 angular.module('mylife.directive', [ 'ngRoute','ajoslin.mobile-navigate' ]);
