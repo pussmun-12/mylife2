@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html ng-app="mylife" >
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/more.css" />
+    <link rel="stylesheet" type="text/css" href="css/calendar.css" />
+    <link rel="stylesheet" type="text/css" href="css/custom_2.css" />
+    <link rel="stylesheet" type="text/css" href="css/demo.css" />
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://rawgithub.com/ajoslin/angular-mobile-nav/master/mobile-nav.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="js/jquery.calendario.js"></script>
+    <script type="text/javascript" src="js/data.js"></script>
+    <script src="js/modernizr.custom.63321.js"></script>
+    <script src="js/CalendarUtil.js"></script>
+    <script type="text/javascript" src="js/DateService.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-route.js"></script>
+    <script src="https://rawgithub.com/ajoslin/angular-mobile-nav/master/mobile-nav.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="http://staticweb.cloudmine.me/cloudmine-0.9.10.min.js"></script>
+    <script src="js/ServerService.js"></script>
+    <script src="js/DateUtil.js"></script>
+    <script src="js/CalendarController.js"></script>
+    <script src="js/DiaryMainController.js"></script>
+    <script src="js/CategoryController.js"></script>
+    <script src="js/angular-spinner.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+
+
+    <title>Hello World</title>
+
+</head>
+<body style="overflow: hidden;" class="bgDark">
+<div class="app" ng-controller="MyLifeCtrl">
+    <div id="deviceready" class="">
+
+        <div id="welcomePage" style="width:100%;height:100%;color:white;text-shadow: 1px 2px 2px rgba(0, 13, 15, 1);">
+            <div style="width:100%;line-height: 45px;font-size: 17px;text-align: center;font-weight: bold;" class="bgRed shadowtwo">Välkommen till mitt liv.se</div>
+            <div style="width:100%;position:absolute;top:20%;bottom:80%;line-height:20px;text-align: center;font-weight: 600">
+                <div style="font-size: 14px;">
+                    <p style="font-weight: bold;font-size: 16px; ">Registrera</p>
+                    <div style="text-align: left;padding-left: 5px;margin-bottom: 5px;">
+                        <span>Email:</span>
+                        <input type="text" ng-model="newUsername" style="min-width:200px;margin-bottom: 0px;float:right;margin-right: 5px">
+                    </div>
+                    <div style="text-align: left;padding-left: 5px">
+                        <span>Lösenord:</span>
+                        <input type="text" ng-model="newPassword" style="min-width:200px;margin-bottom: 0px;float:right;margin-right: 5px">
+                    </div>
+                    <div style="text-align: center;margin-top: 10px"><button ng-click="registerUser()" style="padding-bottom: 1px;padding-top: 1px" class="btn">Gör't</button> </div>
+                    <div style="margin-top: 20px">
+                        <p style="font-weight: bold;font-size: 16px; ">Logga in</p>
+                        <div style="text-align: left;padding-left: 5px;margin-bottom: 5px">
+                            <span>Email:</span>
+                            <input type="text" ng-model="username" style="min-width:200px;margin-bottom: 0px;float:right;margin-right: 5px">
+                        </div>
+                        <div style="text-align: left;padding-left: 5px">
+                            <span>Lösenord:</span>
+                            <input type="text" ng-model="password" style="min-width:200px;margin-bottom: 0px;float:right;margin-right: 5px">
+                        </div>
+                        <div style="text-align: center;margin-top: 10px"><button ng-click="loginUser()" style="padding-bottom: 1px;padding-top: 1px" class="btn">Gör't</button></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <div style="width:100%;height:100%" mobile-view></div>
+
+</div>
+
+
+<script type="text/javascript">
+
+document.addEventListener('focusout', function(e) {
+    //window.scrollTo(0, 0)
+    //$("html, body").animate({ scrollTop: "0px" });
+});
+
+
+//Angular stuff, put in separate files
+angular.module('mylife.directive', [ 'ngRoute','ajoslin.mobile-navigate' ]);
+angular.module('mylife.directive2', []).directive('lasse', function() {
+    return {
+        require: 'ngModel',
+        link: function(scope, elm, attrs, ctrl) {
+            // view -> model
+            elm.on('blur', function() {
+                scope.$apply(function() {
+                    ctrl.$setViewValue(elm.text());
+                });
+            });
+
+            // model -> view
+            ctrl.$render = function(value) {
+                elm.text(value);
+            };
+
+            // load init value from DOM
+            // ctrl.$setViewValue(scope.currentImage.caption);
+        }
+    };
+});
+
+var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
+        config(['$routeProvider', function($routeProvider) {
+    $routeProvider.
+            when('/diary', {templateUrl: 'partials/diaryWithImages.html',   controller: DiaryMainController}).
+            when('/loggedout', {templateUrl: 'partials/loggedout.html'}).
+            when('/test', {templateUrl: 'partials/test.html',   controller: DiaryMainController}).
+            when('/categories', {templateUrl: 'partials/categories.html',   controller: CategoryController}).
+            when('/calendar', {templateUrl: 'partials/calendar.html',   controller: CalendarController}).
+            otherwise({redirectTo: '/'});
+}]).factory('dateService', function(){
+            return new DateService();
+        }).factory('cordovaReady', function() {
+            return function (fn) {
+                var queue = [];
+
+                var impl = function () {
+                    queue.push(Array.prototype.slice.call(arguments));
+                };
+
+                document.addEventListener('deviceready', function () {
+                    console.log('device ready!');
+                    queue.forEach(function (args) {
+                        fn.apply(this, args);
+                    });
+                    impl = fn;
+                }, false);
+
+                return function () {
+                    return impl.apply(this, arguments);
+                };
+            };
+        }).factory('cordovaProxy', function ($rootScope, cordovaReady) {
+            return {
+                getCurrentPosition: cordovaReady(function () {
+                    console.log('getCUrrentPOsstion()');
+                }),
+                hideSplashscreen: cordovaReady(function(){
+                    console.log('hide splash screen');
+                    navigator.splashscreen.hide();
+                })
+            };
+        }).run(function($rootScope) {
+
+            $rootScope.cloudMine = new cloudmine.WebService({
+                //https://cloudmine.me/v1/app/135a331407f64ed2b25eb670edc3fc6c/search?q=[class = "factbox"]
+                appid: "135a331407f64ed2b25eb670edc3fc6c",
+                apikey: "5344976ef3ef43828a90d923071a5051",
+                session_token: (window.localStorage ? localStorage.getItem('cm_session') : null),
+                email:  (window.localStorage ? localStorage.getItem('cm_email') : null)
+            });
+
+            if($rootScope.cloudMine.isLoggedIn()){
+                console.log('is logged in!');
+                $rootScope.loggedInUser = {email:$rootScope.cloudMine.getEmail(), password: null };
+
+            }
+            //$rootScope.cloudMine.get()
+            //console.log($rootScope.cloudMine.getEmail());
+
+            $rootScope.serverService = new ServerService($rootScope.cloudMine);
+
+            $rootScope.dateUtil = new DateUtil();
+            $rootScope.calendarUtil = new CalendarUtil();
+            $rootScope.fullScreenMode = false;
+            $rootScope.fullWindowWidth = window.outerWidth;
+
+            //https://cloudmine.me/v1/app/appid/search?q=[key = "value"]&
+
+        });
+
+
+var MyLifeCtrl = [ '$scope', '$http', '$q','$location', '$navigate', 'cordovaProxy',  function($scope, $http, $q, $location, $navigate, cordovaProxy) {
+    $scope.selectedFiles = [];
+    $scope.datesHavingImages = [];
+    $scope.windowWidth = window.outerWidth;
+    $scope.windowHeight = window.innerHeight;
+    $scope.newUsername = '';
+    $scope.newPassword = '';
+    $scope.username    = '';
+    $scope.password    = '';
+    $scope.variable     = 1;
+    $scope.diaryStyle ="1";
+
+    $scope.menuItems = [{name:"Visa dagbok", url:"diary"},{name:"Visa bilder för kategori", url:"imgbycategory"},{name:"Ladda upp bilder", url:"imagepicker"}];
+ /*   setTimeout(function(){
+        var event = new Event('deviceready');
+        document.dispatchEvent(event);
+    }, 5000); */
+    console.log('hideSplashscreen!');
+    cordovaProxy.hideSplashscreen();
+    //1. Display loading message..
+    //2. Initialize db
+    //3. Fetch datesHavingImages
+    //4. Fetch datesHavingText
+    //5. Get rid of loading message and display site!
+    /**  $scope.dbService.getAllDatesHavingImages($q).then(function(datesHavingImages){
+     console.log('getAllDatesHavingImages resolved!');
+     console.log(datesHavingImages);
+     $scope.datesHavingImages = datesHavingImages;
+     }); */
+
+    if($scope.cloudMine.isLoggedIn()){
+        //  $('#welcomePage').remove();
+        console.log('path = diary');
+        $navigate.go('/diary');
+    }
+
+
+
+    $scope.registerUser = function(){
+        console.log($scope.newUsername + ' ' + $scope.newPassword);
+        $scope.cloudMine.createUser({email: $scope.newUsername, password: $scope.newPassword}).on('success', function(data, response) {
+            console.log('User created!');
+            console.log(data);
+            if(response.hasErrors){
+                alert('Ett okänt fel har inträffat. Försök igen');
+            }
+            // {
+            //    __id__: '52e882fb088747668af4a1670b1d46fb',
+            //    __type__: 'user'
+            // }
+            $scope.cloudMine.login({email: $scope.newUsername, password: $scope.newPassword}).on('success', function(data, response) {
+                console.log('User logged in');
+                console.log(data);
+                //    {
+                //      expires: 'Fri, 31 Aug 2012 19:08:37 GMT',
+                //      profile: {
+                //        __id__: '52e882fb088747668af4a1670b1d46fb',
+                //        __type__: 'user'
+                //      },
+                //      session_token: 'ffcc32dc93c94c7d8045c77e5122a89d'
+                //    }
+                $scope.loggedInUser = { email: $scope.newUsername, password: $scope.newPassword};
+                // Now you can save the session token using localStorage
+                localStorage.setItem('cm_session', data.session_token);
+                localStorage.setItem('cm_email', $scope.newUsername);
+                $scope.fullScreenMode = true;
+                $scope.$digest();
+                $('#welcomePage').remove();
+
+                $scope.$apply(function() {
+
+                    $location.path('diary');
+                });
+
+
+
+            }).on('error', function(response){
+                        console.log(response);
+                    });
+        }).on('error', function(response){
+                    console.log(response);
+                    alert('Denna email-adress används redan. Försök igen med en ny.');
+                });
+    }
+
+    $scope.loginUser = function(){
+        //$scope.navigateApp('diary');
+        console.log('HELLO=');
+        console.log($scope.username + ' ' +  $scope.password);
+        $scope.cloudMine.login({email: $scope.username, password: $scope.password}).on('success', function(data, response) {
+            console.log('User logged in');
+            console.log(data);
+            console.log(response);
+            //    {
+            //      expires: 'Fri, 31 Aug 2012 19:08:37 GMT',
+            //      profile: {
+            //        __id__: '52e882fb088747668af4a1670b1d46fb',
+            //        __type__: 'user'
+            //      },
+            //      session_token: 'ffcc32dc93c94c7d8045c77e5122a89d'
+            //    }
+
+            // Now you can save the session token using localStorage
+
+            $scope.loggedInUser = { email: $scope.username, password: $scope.password};
+            localStorage.setItem('cm_session', data.session_token);
+            localStorage.setItem('cm_email', $scope.username);
+            // $location.path('diary');
+            //$location.replace();
+            $scope.fullScreenMode = true;
+            $scope.$digest();
+            $('#welcomePage').remove();
+
+            $scope.$apply(function() {
+
+                $location.path('diary');
+            });
+
+        }).on('error', function(response){
+                    console.log(response);
+                });
+        document.documentElement.webkitRequestFullScreen();
+    }
+
+    $scope.fetchDatesWithImagesAndText = function(){
+        var promise = $.Deferred($scope.dbService.getAllDatesHavingImages()).promise();
+        var nextPromise = $.when(promise).then(function(datesHavingImages){
+            $scope.datesHavingImages = datesHavingImages;
+            // console.log(datesHavingImages);
+            $scope.doInitJs = true;
+
+            return $.Deferred($scope.serverService.getDatesHavingText()).promise();
+
+        });
+        var evenNextPromise = $.when(nextPromise).then(function(datesHavingText){
+            console.log('dates having text and images resolved');
+            console.log(datesHavingText);
+        });
+
+    }
+
+    $scope.logOutUser = function(){
+        console.log('logOutUser');
+        $scope.cloudMine.logout().on('success', function() {
+            // Clear the locally-stored session_token which is no invalid.
+            console.log('user logged out successfully');
+
+        });
+        window.localStorage && localStorage.removeItem('cm_session');
+        window.localStorage && localStorage.removeItem('cm_email');
+        $location.path('loggedout');
+        $scope.loggedInUser = null;
+        document.webkitCancelFullScreen();
+    }
+
+    $scope.isSelectedMenuItem = function(item) {
+        return $scope.selectedMenuItem === item;
+    }
+
+    $scope.navigateApp = function ( template ) {
+        console.log(template);
+        $location.path( template );
+        console.log($location.path());
+    };
+
+    $scope.setSelectedMenuItem = function(item,first) {
+        $('#welcomePage').remove();
+        $scope.selectedMenuItem = item;
+        if(!first){
+            if($scope.fullScreenMode === false){
+                document.documentElement.webkitRequestFullScreen();
+                $scope.fullScreenMode = true;
+            }
+            $scope.navigateApp(item.url);
+
+        }
+    }
+    // $scope.setSelectedMenuItem($scope.menuItems[0], true);
+
+
+
+    $scope.onFileSelect = function($files) {
+        console.log($files); //Scope.dbService is now usable. fix table creation in upgradeneeded and then fix inserts
+        var fileService = new FileService($files);
+        var promise = $.Deferred(fileService.readFiles()).promise();
+        var nextPromise = $.when(promise).then(function(filesToSave){
+            console.log(filesToSave);
+
+            //$scope.dbService.saveArray(filesToSave);
+            return $.Deferred($scope.dbService.saveArray(filesToSave)).promise();
+            console.log('HEY!');
+            //return filesToSave;
+        }).then(function(){
+                    console.log('All done');
+                });
+
+
+        /**$scope.uploadResult = [];
+         $scope.selectedFile = index == 1 ? $files[0] : null;
+         $scope.selectedFiles = index == 1 ? null : $files;
+         for ( var i = 0; i < $files.length; i++) {
+         var $file = $files[i];
+         console.log($file);
+         } **/
+    }
+    $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+        //you also get the actual event object
+        //do stuff, execute functions -- whatever...
+        //console.log('nr-repeat has finished!');
+    });
+    $scope.getDatesHavingImages = function(){
+        console.log('getDatesHavingImages()..');
+        //var promise = $.Deferred($scope.dbService.getAllDatesHavingImages()).promise();
+
+        $scope.dbService.getAllDatesHavingImages().then(function(datesHavingImages){
+            //  console.log(datesHavingImages);
+            $scope.datesHavingImages = datesHavingImages;
+        });
+    }
+} ];
+
+</script>
+</body>
+</html>

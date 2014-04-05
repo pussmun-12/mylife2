@@ -1,0 +1,136 @@
+<div class="bgWitish" style="position:relative;font-size:22px;font-weight:600;width:100%;line-height:45px;text-align: center;z-index: 999;border-bottom: 1px inset lightgray;">
+    <button ng-click="toggleMenu()" class="btn" style="position:absolute;left:7px;top:7px;padding-left: 5px;padding-right: 5px">Meny</button>
+    mittliv.se
+    <button class="btn" ng-click="goTo('/calendar', 'modal')" style="position:absolute;right:7px;top:7px;padding-left: 5px;padding-right: 5px">{{currentDateDMYY}}</button></div>
+
+<div style="width:100%;height:100%;position:relative" >
+    <div class="testing2" ng-class="{activeMenu : showMenu }" style="" >
+        <ul style="margin: 0px 20px;padding-top: 10px; padding-bottom: 10px">
+            <li ng-click="addDayMainText('Lägg till text med rubrik')" style="border-bottom: 1px inset gray;line-height: 35px;">Första valet</li>
+            <li ng-click="addDayMainText('Lägg till faktabox')" style="border-bottom: 1px inset gray;line-height: 35px;">Lägg till faktabox</li>
+            <li ng-click="goToPath('categories')" style="border-bottom: 1px inset gray;line-height: 35px;">Gå till kategorier</li>
+            <li style="border-bottom: 1px inset gray;line-height: 35px;">Och sa lite till..</li>
+            <li style="line-height: 35px;">Och sa lite till igen..</li>
+        </ul>
+    </div>
+    <div class="bgCarousel imgContainer" style="width:100%;height:40%;margin: 0px;position: absolute">
+        <div id="myCarousel" class="carousel slide" style="display: inline-block;height:100%;width:100%">
+            <button ng-click="collapseCarousel()" style="top:5px;right:5px;padding:2px 7px;z-index:200" class="saveButton bgSaveButton">x</button>
+            <div class="carousel-inner" style="height:100%" >
+                <div ng-class="{active: $first}" class="item" style="{{currentImage.css}}" ng-repeat="currentImage in currentImages" ng-click="addImageCaption(currentImage)" >
+
+                    <div ng-show="showCategories" class="categoryDiv" ng-class="{activeCategoryDiv : slideInCategories}" style="width:100%;height:-webkit-calc(100% - 50px);background-color:yellow;" >
+                        <div style="line-height: 30px;width:100%;text-align: center;background-color: #9acd32;">Kategorier <button ng-click="saveImageCaption(currentImage,$event)" style="top:1px;right:5px;padding:2px 7px;" class="saveButton bgSaveButton">Spara</button></div>
+
+                        <ul style="width:100%;height:-webkit-calc(100% - 30px);margin: 0;overflow:auto">
+                            <li style="position:relative;width:100%" class="category" ng-click="clickCategory($index)" ng-model="currentImage.categories[$index].name" ng-repeat="category in currentImage.categories track by $index" >
+                                <span lasse="true" contenteditable="true" ng-model="currentImage.categories[$index].name">{{category.name}}</span>
+                                <button ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)" style="top:5px;right:55px;padding:2px 7px;" class="saveButton bgSaveButton">+</button>
+                                <button ng-show="showCategoriesFunc($index)" ng-click="deleteCategory($index, category.name, $event)" style="top:5px;right:30px;padding:2px 7px;" class="saveButton bgSaveButton">-</button>
+                                <button ng-show="showCategoriesFunc($index)" ng-click="collapseCategories(currentImage, $event)" style="top:5px;right:5px;padding:2px 7px;" class="saveButton bgSaveButton">x</button>
+                                <!-- <span ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)"  style="position:absolute;right:0;top:0;background-color:blue;color:white;width:100px;z-index:101">Ny kategori</span>00-->
+                                <ul style="position:absolute;overflow:auto;max-height:300px;width:100%;top:40px;z-index:101;padding:0;margin:0;border:1px solid" ng-show="showCategoriesFunc($index)">
+                                    <li class="existingCategoriesHeader header">Befintliga kategorier</li>
+                                    <li class="existingCategoriesItem" ng-click="pickCategory(cat, $index, $event)" ng-repeat="cat in imageCategories">{{cat}}</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div ng-show="currentImage.captionExists" ng-class="{activeCaption : currentImage.slideIn}" class="carousel-caption">
+                        <p class="lead" ng-model="currentImage.caption" lasse="whatever" contenteditable="true">{{currentImage.caption}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <a class="left carousel-control" style="cursor:pointer" ng-click="prevCarouselImage()" data-slide="prev">&lsaquo;</a>
+            <a class="right carousel-control" style="cursor:pointer" ng-click="nextCarouselImage()" data-slide="next">&rsaquo;</a>
+        </div><!-- /.carousel -->
+    </div>
+    <div style="width:100%;margin: 0px;height:800px;overflow:scroll;position:absolute;top:253px" class="txtContainer">
+        <button ng-click="bringBackCarousel()" style="top:5px;right:5px;padding:2px 7px;z-index:200" class="saveButton bgSaveButton">!</button>
+
+        <div ng-show="isShowFactBoxes()" class="bgCarousel" style="width:100%;margin: 0px;position: relative">
+            <div id="myFactboxCarousel" class="carousel slide" style="display: inline-block;width:100%;margin-bottom: 0px">
+                <div>
+                    <div class="active" style="padding-top: 15px;padding-bottom: 15px; background:#f5f5f5;width:100%">
+
+                        <div ng-class="{pullDownFactBox: !$first}" ng-mouseenter="factboxOnHover(factbox)"  ng-mouseleave="factbox.showLocation = false" ng-click="showFactBoxSave(factbox, $event)" class="mainTextDiv factBoxDiv bgVeryLightCream" ng-repeat="factbox in factBoxes">
+                            <button style="top:10px;left:5px;width:100px" ng-show="showFactBoxSaveButton" ng-click="deleteFactBox(factbox,$event)" class="saveButton bgSaveButton">Ta bort</button>
+                            <button style="top:10px;right:5px;width:75px" ng-show="showFactBoxSaveButton" ng-click="saveFactBox(factbox,$event)" class="saveButton bgSaveButton">Spara</button>
+                            <div ng-model="factbox.title" ng-show="factbox.showTitle" class="banner factboxBannerBg" contenteditable="true" spellcheck="false" lasse="true" style="width:100%">{{factbox.title}}</div>
+                            <div style="width:100%;text-align: center">
+                                <img ng-show="factbox.showimageurl" ng-src="{{factbox.imageurl}}" style="max-width: 100%;max-height: 280px;" >
+                            </div>
+                            <div ng-model="factbox.imageurl" ng-show="factbox.showimageurlText" style="width:100%;background:white;color:black;line-height: 20px;text-align: center" contenteditable="true" spellcheck="false" lasse="true">{{factbox.imageurl}}</div>
+
+                            <div style="width:100%;height:200px" ng-if="factbox.showLocation">
+
+                                <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
+                                     ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+
+                                </div>
+
+                                <div id="map_canvas"  ui-map="myMap" class="map"
+                                     ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"
+                                     ui-options="mapOptions">
+                                </div>
+
+
+                            </div>
+                            <div style="width:100%;font-family: Garamond,serif;">
+                                <div class="textNode" style="width:100%;position:relative;">
+                                    <div class="" style="width:100%;margin: 0px auto;padding-top: 10px;padding-bottom: 10px" >
+                                        <div ng-model="factbox.subtitle" ng-show="factbox.showSubtitle" class="textNode" style="text-align: center;font-size:18px;line-height: 15px;padding: 0px; padding-bottom: 10px;border-bottom: inset 1px lightgray;font-weight: bold;color: #cf554d;margin-bottom: 10px;" contenteditable="true" spellcheck="false" lasse="true">{{factbox.subtitle}}</div>
+                                        <div ng-model="factbox.text"  style="font-size:17px;padding-left: 20px;padding-right: 20px;line-height: 22px;color:black;-webkit-font-smoothing: antialiased;" class="textNode" contenteditable="true" spellcheck="false" lasse="true">
+                                            {{factbox.text}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="factbox.showCategories" id="categoryDiv2" style="width:100%;height:230px;background-color:yellow;z-index:100;" >
+                                <div style="line-height: 30px;text-align: center;background-color: #9acd32;">Kategorier</div>
+
+                                <ul style="height:200px;margin: 0;">
+                                    <li style="position:relative;width:100%" class="category" ng-click="clickFactBoxCategory($index, $event)" ng-model="factbox.categories[$index].name" ng-repeat="category in factbox.categories track by $index" >
+                                        <span lasse="true" contenteditable="true" ng-model="factbox.categories[$index].name">{{category.name}}</span>
+                                        <button ng-show="showExistingCategoriesForFactBox($index, factbox)" ng-click="newCategoryWithFactBox($index, category.name, $event,factbox)" style="top:5px;right:5px" class="saveButton bgSaveButton">Spara ny kategori</button>
+                                        <!-- <span ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)"  style="position:absolute;right:0;top:0;background-color:blue;color:white;width:100px;z-index:101">Ny kategori</span>00-->
+                                        <ul style="position:absolute;overflow:auto;max-height:300px;width:100%;top:40px;z-index:101;padding:0;margin:0;border:1px solid" ng-show="showExistingCategoriesForFactBox($index, factbox)">
+                                            <li class="existingCategoriesHeader header">Befintliga kategorier</li>
+                                            <li class="existingCategoriesItem" ng-click="pickFactBoxCategory(cat, $index, $event, factbox)" ng-repeat="cat in imageCategories">{{cat}}</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.carousel -->
+        </div>
+        <div ng-show="mainTextExists" ng-click="showMainTextButtonFunc()" style="width:100%;margin: 0px;font-family: Garamond,serif;">
+            <div ng-model="mainText" class="textNode bgVeryLightCream" style="width:100%;padding-bottom: 10px;padding-top: 10px;position:relative">
+                <button ng-show="showMainTextButton" ng-click="saveMainText($event)" class="saveButton bgSaveButton">Spara</button>
+                <div class="bgVeryLightCream mainTextDiv" style="width:95%;margin: 0px auto;padding-top: 10px;padding-bottom: 10px" >
+                    <div ng-model="mainText.header" ng-show="mainTextHeaderExists" class="textNode" style="text-align: center;font-size:18px;line-height: 15px;padding: 0px; padding-bottom: 10px;border-bottom: inset 1px lightgray;font-weight: bold;color: #cf554d;margin-bottom: 10px;" contenteditable="true" spellcheck="false" lasse="true">{{mainText.header}}</div>
+                    <div ng-model="mainText.body" id="mainText" style="font-size:17px;padding-left: 20px;padding-right: 20px;line-height: 22px;color:black;-webkit-font-smoothing: antialiased;" class="textNode" contenteditable="true" spellcheck="false" lasse="true">
+                        {{mainText.body}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bgRed simpleshadow"  style="color:white;font-weight:500;font-size:17px;width:100%;min-height:-webkit-calc(100% - 370px)">
+            <div style="width:100%;height:100%">
+                <p class="bgWitish" style="text-align: center;color:black;font-size:15px;line-height: 40px;width:100%;padding: 0px;margin: 0px;font-weight: 600;border-bottom: 1px inset lightgray">Toppnyheter</p>
+                <div id="newsContainer" class="bgVeryLightCream"
+                     style="color:black;font-weight:500;font-size:17px;width:100%;padding-top: 20px;padding-bottom: 20px;padding-left: 40px;padding-right: 10px;">
+                </div>
+            </div>
+        </div>
+        <div ng-click="go('diary')" style="height:2000px;width:100%;background: blue;">{{windowWidth}} 22</div>
+
+
+    </div>
+</div>
+</div>
