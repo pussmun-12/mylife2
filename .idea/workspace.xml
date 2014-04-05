@@ -113,19 +113,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="diaryWithImages.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="diaryWithImages.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/assets/www/partials/diaryWithImages.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="19" selection-start="19" selection-end="19" vertical-scroll-proportion="-0.0">
+            <state line="0" column="49" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DiaryMainController.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DiaryMainController.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/www/js/DiaryMainController.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="542" column="86" selection-start="20583" selection-end="20583" vertical-scroll-proportion="0.32682925">
+            <state line="542" column="86" selection-start="20583" selection-end="20583" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -187,8 +187,8 @@
         <option value="$PROJECT_DIR$/assets/www/js/CategoryController.js" />
         <option value="$PROJECT_DIR$/assets/www/partials/categories.html" />
         <option value="$PROJECT_DIR$/assets/www/index.html" />
-        <option value="$PROJECT_DIR$/assets/www/partials/diaryWithImages.html" />
         <option value="$PROJECT_DIR$/assets/www/js/DiaryMainController.js" />
+        <option value="$PROJECT_DIR$/assets/www/partials/diaryWithImages.html" />
       </list>
     </option>
   </component>
@@ -698,16 +698,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/partials/diaryWithImages.html">
+    <entry file="file://$PROJECT_DIR$/assets/www/js/DiaryMainController.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="19" selection-start="19" selection-end="19" vertical-scroll-proportion="0.0">
+        <state line="542" column="86" selection-start="20583" selection-end="20583" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/www/js/DiaryMainController.js">
+    <entry file="file://$PROJECT_DIR$/assets/www/partials/diaryWithImages.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="542" column="86" selection-start="20583" selection-end="20583" vertical-scroll-proportion="0.32682925">
+        <state line="0" column="49" selection-start="49" selection-end="49" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
