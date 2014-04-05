@@ -1,53 +1,55 @@
-<div class="bgWitish" style="position:relative;font-size:22px;font-weight:600;width:100%;line-height:45px;text-align: center;z-index: 999;border-bottom: 1px inset lightgray;">
-    <button ng-click="toggleMenu()" class="btn" style="position:absolute;left:7px;top:7px;padding-left: 5px;padding-right: 5px">Meny</button>
-    mittliv.se
-    <button class="btn" ng-click="goTo('/calendar', 'modal')" style="position:absolute;right:7px;top:7px;padding-left: 5px;padding-right: 5px">{{currentDateDMYY}}</button></div>
+<div style="width:100%;height:100%;position:fixed">
+    <div class="bgWitish" style="position:relative;font-size:22px;font-weight:600;width:100%;line-height:45px;text-align: center;z-index: 999;border-bottom: 1px inset lightgray;">
+        <button ng-click="toggleMenu()" class="btn" style="position:absolute;left:7px;top:7px;padding-left: 5px;padding-right: 5px">Meny</button>
+        mittliv.se
+        <button class="btn" ng-click="goTo('/calendar', 'modal')" style="position:absolute;right:7px;top:7px;padding-left: 5px;padding-right: 5px">{{currentDateDMYY}}</button></div>
 
-<div style="width:100%;height:100%;position:relative" >
-    <div class="testing2" ng-class="{activeMenu : showMenu }" style="" >
-        <ul style="margin: 0px 20px;padding-top: 10px; padding-bottom: 10px">
-            <li ng-click="addDayMainText('Lägg till text med rubrik')" style="border-bottom: 1px inset gray;line-height: 35px;">Första valet</li>
-            <li ng-click="addDayMainText('Lägg till faktabox')" style="border-bottom: 1px inset gray;line-height: 35px;">Lägg till faktabox</li>
-            <li ng-click="goToPath('categories')" style="border-bottom: 1px inset gray;line-height: 35px;">Gå till kategorier</li>
-            <li style="border-bottom: 1px inset gray;line-height: 35px;">Och sa lite till..</li>
-            <li style="line-height: 35px;">Och sa lite till igen..</li>
-        </ul>
-    </div>
-    <div class="bgCarousel imgContainer" style="width:100%;height:40%;margin: 0px;position: absolute">
-        <div id="myCarousel" class="carousel slide" style="display: inline-block;height:100%;width:100%">
-            <button ng-click="collapseCarousel()" style="top:5px;right:5px;padding:2px 7px;z-index:200" class="saveButton bgSaveButton">x</button>
-            <div class="carousel-inner" style="height:100%" >
-                <div ng-class="{active: $first}" class="item" style="{{currentImage.css}}" ng-repeat="currentImage in currentImages" ng-click="addImageCaption(currentImage)" >
+    <div style="width:100%;height:100%;position:relative" >
+        <div class="testing2" ng-class="{activeMenu : showMenu }" style="" >
+            <ul style="margin: 0px 20px;padding-top: 10px; padding-bottom: 10px">
+                <li ng-click="addDayMainText('Lägg till text med rubrik')" style="border-bottom: 1px inset gray;line-height: 35px;">Första valet</li>
+                <li ng-click="addDayMainText('Lägg till faktabox')" style="border-bottom: 1px inset gray;line-height: 35px;">Lägg till faktabox</li>
+                <li ng-click="goToPath('categories')" style="border-bottom: 1px inset gray;line-height: 35px;">Gå till kategorier</li>
+                <li style="border-bottom: 1px inset gray;line-height: 35px;">Och sa lite till..</li>
+                <li style="line-height: 35px;">Och sa lite till igen..</li>
+            </ul>
+        </div>
+        <div class="bgCarousel imgContainer" style="width:100%;height:40%;margin: 0px;position: absolute">
+            <div id="myCarousel" class="carousel slide" style="display: inline-block;height:100%;width:100%">
+                <button ng-click="collapseCarousel()" style="top:5px;right:5px;padding:2px 7px;z-index:200" class="saveButton bgSaveButton">x</button>
+                <div class="carousel-inner" style="height:100%" >
+                    <div ng-class="{active: $first}" class="item" style="{{currentImage.css}}" ng-repeat="currentImage in currentImages" ng-click="addImageCaption(currentImage)" >
 
-                    <div ng-show="showCategories" class="categoryDiv" ng-class="{activeCategoryDiv : slideInCategories}" style="width:100%;height:-webkit-calc(100% - 50px);background-color:yellow;" >
-                        <div style="line-height: 30px;width:100%;text-align: center;background-color: #9acd32;">Kategorier <button ng-click="saveImageCaption(currentImage,$event)" style="top:1px;right:5px;padding:2px 7px;" class="saveButton bgSaveButton">Spara</button></div>
+                        <div ng-show="showCategories" class="categoryDiv" ng-class="{activeCategoryDiv : slideInCategories}" style="width:100%;height:-webkit-calc(100% - 50px);background-color:yellow;" >
+                            <div style="line-height: 30px;width:100%;text-align: center;background-color: #9acd32;">Kategorier <button ng-click="saveImageCaption(currentImage,$event)" style="top:1px;right:5px;padding:2px 7px;" class="saveButton bgSaveButton">Spara</button></div>
 
-                        <ul style="width:100%;height:-webkit-calc(100% - 30px);margin: 0;overflow:auto">
-                            <li style="position:relative;width:100%" class="category" ng-click="clickCategory($index)" ng-model="currentImage.categories[$index].name" ng-repeat="category in currentImage.categories track by $index" >
-                                <span lasse="true" contenteditable="true" ng-model="currentImage.categories[$index].name">{{category.name}}</span>
-                                <button ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)" style="top:5px;right:55px;padding:2px 7px;" class="saveButton bgSaveButton">+</button>
-                                <button ng-show="showCategoriesFunc($index)" ng-click="deleteCategory($index, category.name, $event)" style="top:5px;right:30px;padding:2px 7px;" class="saveButton bgSaveButton">-</button>
-                                <button ng-show="showCategoriesFunc($index)" ng-click="collapseCategories(currentImage, $event)" style="top:5px;right:5px;padding:2px 7px;" class="saveButton bgSaveButton">x</button>
-                                <!-- <span ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)"  style="position:absolute;right:0;top:0;background-color:blue;color:white;width:100px;z-index:101">Ny kategori</span>00-->
-                                <ul style="position:absolute;overflow:auto;max-height:300px;width:100%;top:40px;z-index:101;padding:0;margin:0;border:1px solid" ng-show="showCategoriesFunc($index)">
-                                    <li class="existingCategoriesHeader header">Befintliga kategorier</li>
-                                    <li class="existingCategoriesItem" ng-click="pickCategory(cat, $index, $event)" ng-repeat="cat in imageCategories">{{cat}}</li>
-                                </ul>
-                            </li>
-                        </ul>
+                            <ul style="width:100%;height:-webkit-calc(100% - 30px);margin: 0;overflow:auto">
+                                <li style="position:relative;width:100%" class="category" ng-click="clickCategory($index)" ng-model="currentImage.categories[$index].name" ng-repeat="category in currentImage.categories track by $index" >
+                                    <span lasse="true" contenteditable="true" ng-model="currentImage.categories[$index].name">{{category.name}}</span>
+                                    <button ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)" style="top:5px;right:55px;padding:2px 7px;" class="saveButton bgSaveButton">+</button>
+                                    <button ng-show="showCategoriesFunc($index)" ng-click="deleteCategory($index, category.name, $event)" style="top:5px;right:30px;padding:2px 7px;" class="saveButton bgSaveButton">-</button>
+                                    <button ng-show="showCategoriesFunc($index)" ng-click="collapseCategories(currentImage, $event)" style="top:5px;right:5px;padding:2px 7px;" class="saveButton bgSaveButton">x</button>
+                                    <!-- <span ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)"  style="position:absolute;right:0;top:0;background-color:blue;color:white;width:100px;z-index:101">Ny kategori</span>00-->
+                                    <ul style="position:absolute;overflow:auto;max-height:300px;width:100%;top:40px;z-index:101;padding:0;margin:0;border:1px solid" ng-show="showCategoriesFunc($index)">
+                                        <li class="existingCategoriesHeader header">Befintliga kategorier</li>
+                                        <li class="existingCategoriesItem" ng-click="pickCategory(cat, $index, $event)" ng-repeat="cat in imageCategories">{{cat}}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div ng-show="currentImage.captionExists" ng-class="{activeCaption : currentImage.slideIn}" class="carousel-caption">
+                            <p class="lead" ng-model="currentImage.caption" lasse="whatever" contenteditable="true">{{currentImage.caption}}</p>
+                        </div>
                     </div>
 
-                    <div ng-show="currentImage.captionExists" ng-class="{activeCaption : currentImage.slideIn}" class="carousel-caption">
-                        <p class="lead" ng-model="currentImage.caption" lasse="whatever" contenteditable="true">{{currentImage.caption}}</p>
-                    </div>
                 </div>
-
-            </div>
-            <a class="left carousel-control" style="cursor:pointer" ng-click="prevCarouselImage()" data-slide="prev">&lsaquo;</a>
-            <a class="right carousel-control" style="cursor:pointer" ng-click="nextCarouselImage()" data-slide="next">&rsaquo;</a>
-        </div><!-- /.carousel -->
+                <a class="left carousel-control" style="cursor:pointer" ng-click="prevCarouselImage()" data-slide="prev">&lsaquo;</a>
+                <a class="right carousel-control" style="cursor:pointer" ng-click="nextCarouselImage()" data-slide="next">&rsaquo;</a>
+            </div><!-- /.carousel -->
+        </div>
     </div>
-    <div style="width:100%;margin: 0px;height:800px;overflow:scroll;position:absolute;top:253px" class="txtContainer">
+    <div style="width:100%;margin: 0px;height:800px;position:absolute;top:253px" class="txtContainer">
         <button ng-click="bringBackCarousel()" style="top:5px;right:5px;padding:2px 7px;z-index:200" class="saveButton bgSaveButton">!</button>
 
         <div ng-show="isShowFactBoxes()" class="bgCarousel" style="width:100%;margin: 0px;position: relative">
