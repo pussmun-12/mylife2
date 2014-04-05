@@ -1,0 +1,86 @@
+<div style="width:100%;height:100%;position:relative">
+    <div class="bgWitish" style="position:relative;font-size:22px;font-weight:600;width:100%;line-height:45px;text-align: center;z-index: 999">
+        <button ng-click="toggleMenu()" class="btn" style="position:absolute;left:7px;top:7px;padding-left: 5px;padding-right: 5px">Meny</button>
+        mittliv.se
+        <button ng-click="toggleCategoryPanel()" class="btn" style="position:absolute;right:7px;top:7px;padding-left: 5px;padding-right: 5px">Kategorier</button>
+    </div>
+    <div class="categoryPanel" ng-show="showCategoryPanel" style="position:absolute;top:45px;font-size:22px;font-weight:600;width:100%;line-height:45px;text-align: center;background:white;z-index: 200 ">
+
+        Kategori-val
+        <select style="position:absolute;right:55px;top:7px;height:30px;line-height:30px;width:100px" name="select" multiple
+                ng-multiple="true" ng-model="selectedImageCategories" ng-options="c for c in imageCategories">
+
+        </select>
+        <button ng-click="fetchDataForCategories()" class="btn" style="position:absolute;right:7px;top:7px;padding-left: 5px;padding-right: 5px">Välj</button>
+    </div>
+
+
+    <div style="width:100%;margin: 0px;height: -webkit-calc(100% - 45px); overflow:scroll;overflow:auto;position:absolute;top:45px" class="txtContainer">
+        <button ng-click="bringBackCarousel()" style="top:5px;right:5px;padding:2px 7px;z-index:200" class="saveButton bgSaveButton">!</button>
+
+        <div ng-show="isShowFactBoxes()" class="bgCarousel" style="width:100%;margin: 0px;position: relative">
+            <div id="myFactboxCarousel" class="carousel slide" style="display: inline-block;width:100%;margin-bottom: 0px">
+                <div>
+                    <div class="active" style="padding-top: 15px;padding-bottom: 15px; background:#f5f5f5;width:100%">
+
+                        <div ng-class="{pullDownFactBox: !$first}" ng-mouseenter="factboxOnHover(factbox)"  ng-mouseleave="factbox.showLocation = false" ng-click="showFactBoxSave(factbox, $event)" class="mainTextDiv factBoxDiv bgVeryLightCream" ng-repeat="factbox in factBoxes">
+                            <button style="top:10px;left:5px;width:100px" ng-show="showFactBoxSaveButton" ng-click="deleteFactBox(factbox,$event)" class="saveButton bgSaveButton">Ta bort</button>
+                            <button style="top:10px;right:5px;width:75px" ng-show="showFactBoxSaveButton" ng-click="saveFactBox(factbox,$event)" class="saveButton bgSaveButton">Spara</button>
+                            <div ng-model="factbox.title" ng-show="factbox.showTitle" class="banner factboxBannerBg" contenteditable="true" spellcheck="false" lasse="true" style="width:100%">{{factbox.title}}</div>
+                            <div style="width:100%;text-align: center">
+                                <img ng-show="factbox.showimageurl" ng-src="{{factbox.imageurl}}" style="max-width: 100%;max-height: 280px;" >
+                            </div>
+                            <div ng-model="factbox.imageurl" ng-show="factbox.showimageurlText" style="width:100%;background:white;color:black;line-height: 20px;text-align: center" contenteditable="true" spellcheck="false" lasse="true">{{factbox.imageurl}}</div>
+
+                            <div style="width:100%;height:200px" ng-if="factbox.showLocation">
+
+                                <div ng-repeat="marker in myMarkers" ui-map-marker="myMarkers[$index]"
+                                     ui-event="{'map-click': 'openMarkerInfo(marker)'}">
+
+                                </div>
+
+                                <div id="map_canvas"  ui-map="myMap" class="map"
+                                     ui-event="{'map-click': 'addMarker($event, $params)', 'map-zoom_changed': 'setZoomMessage(myMap.getZoom())' }"
+                                     ui-options="mapOptions">
+                                </div>
+
+
+                            </div>
+                            <div style="width:100%;font-family: Garamond,serif;">
+                                <div class="textNode" style="width:100%;position:relative;">
+                                    <div class="" style="width:100%;margin: 0px auto;padding-top: 10px;padding-bottom: 10px" >
+                                        <div ng-model="factbox.subtitle" ng-show="factbox.showSubtitle" class="textNode" style="text-align: center;font-size:18px;line-height: 15px;padding: 0px; padding-bottom: 10px;border-bottom: inset 1px lightgray;font-weight: bold;color: #cf554d;margin-bottom: 10px;" contenteditable="true" spellcheck="false" lasse="true">{{factbox.subtitle}}</div>
+                                        <div ng-model="factbox.text"  style="font-size:17px;padding-left: 20px;padding-right: 20px;line-height: 22px;color:black;-webkit-font-smoothing: antialiased;" class="textNode" contenteditable="true" spellcheck="false" lasse="true">
+                                            {{factbox.text}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="factbox.showCategories" id="categoryDiv2" style="width:100%;height:230px;background-color:yellow;z-index:100;" >
+                                <div style="line-height: 30px;text-align: center;background-color: #9acd32;">Kategorier</div>
+
+                                <ul style="height:200px;margin: 0;">
+                                    <li style="position:relative;width:100%" class="category" ng-click="clickFactBoxCategory($index, $event)" ng-model="factbox.categories[$index].name" ng-repeat="category in factbox.categories track by $index" >
+                                        <span lasse="true" contenteditable="true" ng-model="factbox.categories[$index].name">{{category.name}}</span>
+                                        <button ng-show="showExistingCategoriesForFactBox($index, factbox)" ng-click="newCategoryWithFactBox($index, category.name, $event,factbox)" style="top:5px;right:5px" class="saveButton bgSaveButton">Spara ny kategori</button>
+                                        <!-- <span ng-show="showCategoriesFunc($index)" ng-click="newCategory($index, category.name, $event)"  style="position:absolute;right:0;top:0;background-color:blue;color:white;width:100px;z-index:101">Ny kategori</span>00-->
+                                        <ul style="position:absolute;overflow:auto;max-height:300px;width:100%;top:40px;z-index:101;padding:0;margin:0;border:1px solid" ng-show="showExistingCategoriesForFactBox($index, factbox)">
+                                            <li class="existingCategoriesHeader header">Befintliga kategorier</li>
+                                            <li class="existingCategoriesItem" ng-click="pickFactBoxCategory(cat, $index, $event, factbox)" ng-repeat="cat in imageCategories">{{cat}}</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.carousel -->
+        </div>
+
+
+
+    </div>
+
+
+</div>
