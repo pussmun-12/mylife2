@@ -88,9 +88,9 @@ document.addEventListener('focusout', function(e) {
     //$("html, body").animate({ scrollTop: "0px" });
 });
 
-$(function() {
+/*$(function() {
     FastClick.attach(document.body);
-});
+});*/
 
 //Angular stuff, put in separate files
 angular.module('mylife.directive', [ 'ngRoute','ajoslin.mobile-navigate' ]);
@@ -137,6 +137,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
 
                 document.addEventListener('deviceready', function () {
                     console.log('device ready!');
+                    alert('device is ready!');
                     queue.forEach(function (args) {
                         fn.apply(this, args);
                     });
@@ -153,9 +154,9 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                     console.log('getCUrrentPOsstion()');
                 }),
                 hideSplashscreen: cordovaReady(function(){
-                    alert('hiding navigator!');
                     console.log('hide splash screen');
                     navigator.splashscreen.hide();
+                    alert('hid navigator!');
                 })
             };
         }).run(function($rootScope) {
