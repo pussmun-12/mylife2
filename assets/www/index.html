@@ -153,6 +153,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                     console.log('getCUrrentPOsstion()');
                 }),
                 hideSplashscreen: cordovaReady(function(){
+                    alert('hiding navigator!');
                     console.log('hide splash screen');
                     navigator.splashscreen.hide();
                 })
