@@ -138,7 +138,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
 
                 document.addEventListener('deviceready', function () {
                     console.log('device ready!');
-                    alert('device is ready!');
+                    //alert('device is ready!');
                     queue.forEach(function (args) {
                         fn.apply(this, args);
                     });
@@ -157,7 +157,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                 hideSplashscreen: cordovaReady(function(){
                     console.log('hide splash screen');
                     navigator.splashscreen.hide();
-                    alert('hid navigator!');
+                    //alert('hid navigator!');
                 })
             };
         }).run(function($rootScope) {
