@@ -585,7 +585,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 $scope.dateData = data;
 
                 //return $.Deferred($scope.dbService.getImagesForDate2($scope.currentDate)).promise();
-                var css = 'background-image:url(\'http://img.mit.edu/newsoffice/images/article_images/original/20121204164418-0.jpg\');' +
+                var css = 'background-image:url(\'http://images.nationalgeographic.com/wpf/media-live/photos/000/003/cache/mt-des-voeux_300_600x450.jpg\');' +
                     'background-repeat:no-repeat;' +
                     'background-position:center;' +
                     'background-size:cover;' +
