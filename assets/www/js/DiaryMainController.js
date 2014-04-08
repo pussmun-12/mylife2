@@ -542,7 +542,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
         $('#myCarousel').carousel();
         document.getElementById('noscroll').addEventListener('touchmove', function(e){;e.preventDefault(); });
         $scope.showMenu = false;
-        $scope.showFactBoxes = false;
+        $scope.showFactBoxes = true;
         $scope.factBoxEditMode = false;
         $scope.factboxImage = null;
         $scope.factBoxes = [];
