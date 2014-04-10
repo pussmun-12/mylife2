@@ -96,14 +96,15 @@ public class Echo extends CordovaPlugin {
 							jso.put("height",height);
 							jso.put("rotate",rotate);
 							jso.put("url", encodeTobase64(scaled));
-							jso.put("modified", file1[i].lastModified().toString());
-							jso.put("fileId", file1[i].getName() + file1[i].lastModified().toString());
+							jso.put("modified", file1[i].lastModified();
+							jso.put("fileId", file1[i].getName() + file1[i].lastModified());
 							toReturn.put(filePath, jso);
 							
 							
-						} catch (IOException e) {
+						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
+							toReturn.put("error", e.getMessage());
 						}
 						//Bitmap bitMapObj= BitmapFactory.decodeFile(filePath);
 						
