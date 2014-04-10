@@ -1,4 +1,4 @@
-function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $navigate, dateService){
+function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $navigate, dateService,cordovaProxy){
 
     $scope.windowWidth = window.outerWidth;
     $scope.factBoxes = [];
@@ -10,6 +10,13 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
     $scope.options = [{id:1, value: "Lägg till text med rubrik"},{id:2, value: "Lägg till text utan rubrik"},{id:3, value:"Ta bort dagens text"},
         {id:4, value:"Lägg till faktabox"},{id:5, value:"Visa faktaboxar"} ,{id:6, value:"Göm faktaboxar"}];
 
+    $scope.successHandler = function(images){
+        alert('success!');
+        alert(images);
+    }
+    alert('before');
+    cordovaProxy.getImagesFromPhone($scope.successHandler);
+    alert('after');
     $scope.toggleCategoryPanel = function(){
 
         if( $scope.showCategoryPanel){
