@@ -30,7 +30,8 @@ public class Echo extends CordovaPlugin {
 
 
 			try{
-				callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, getImgPaths(width,height)));
+				callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, getDummy()));
+				
 			}
 			catch(JSONException e){
 				callbackContext.error("ERROR!");
@@ -38,6 +39,11 @@ public class Echo extends CordovaPlugin {
 		} else {
 			callbackContext.error("Expected one non-empty string argument.");
 		}
+	}
+	
+	private JSONObject getDummy(){
+		JSONObject toReturn = new JSONObject();
+		return toReturn;
 	}
 
 	private JSONObject getImgPaths(int width, int height) throws JSONException {
