@@ -177,7 +177,17 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                             onSuccess.apply(that, args);
                           });
                         }
-                      });
+                      }, function () {
+                        var that = this,
+                         args = arguments;
+
+                            if (onError) {
+                              $rootScope.$apply(function () {
+                                onError.apply(that, args);
+                              });
+                            }
+                          },
+                          options);
                     })
             };
         }).run(function($rootScope) {
