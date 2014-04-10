@@ -41,8 +41,10 @@ public class Echo extends CordovaPlugin {
 		}
 	}
 	
-	private JSONObject getDummy(){
+	private JSONObject getDummy() throws JSONException{
 		JSONObject toReturn = new JSONObject();
+		if(false)
+			throw new JSONException();
 		return toReturn;
 	}
 
