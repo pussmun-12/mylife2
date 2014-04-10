@@ -12,7 +12,11 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
 
     $scope.successHandler = function(images){
         alert('success!');
-        alert(images);
+        for(var i = 0; i <= images.length; i++){
+            if(i <= 5){
+                alert(images[i].filePath);
+            }
+        }
     }
     alert('before');
     cordovaProxy.getImagesFromPhone($scope.successHandler);
