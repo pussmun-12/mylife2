@@ -90,9 +90,10 @@ document.addEventListener('focusout', function(e) {
 });
 
 window.echo = function(onSuccess) {
-    cordova.exec(onSuccess, function(err) {
+   /* cordova.exec(onSuccess, function(err) {
         onSuccess('Nothing to echo.');
-    }, "Echo", "echo", ['dummy',window.outerWidth,300]);
+    }, "Echo", "echo", ['dummy',window.outerWidth,300]);*/
+    alert('echo!');
 };
 
 /*$(function() {
