@@ -91,11 +91,11 @@ public class Echo extends CordovaPlugin {
 						try {
 							
 							rotate = getImgOrientation(file1[i]);
-							Bitmap scaled = getScaledBitmap(filePath, requestHeight, requestWidth);
+							//Bitmap scaled = getScaledBitmap(filePath, requestHeight, requestWidth);
 							jso.put("width", width);
 							jso.put("height",height);
 							jso.put("rotate",rotate);
-							jso.put("url", encodeTobase64(scaled));
+							//jso.put("url", encodeTobase64(scaled));
 							jso.put("modified", file1[i].lastModified());
 							jso.put("fileId", file1[i].getName() + file1[i].lastModified());
 							toReturn.put(filePath, jso);
