@@ -89,6 +89,12 @@ document.addEventListener('focusout', function(e) {
     //$("html, body").animate({ scrollTop: "0px" });
 });
 
+window.echo = function(onSuccess) {
+    cordova.exec(onSuccess, function(err) {
+        onSuccess('Nothing to echo.');
+    }, "Echo", "echo", ['dummy',window.outerWidth,300]);
+};
+
 /*$(function() {
     FastClick.attach(document.body);
 });*/
@@ -159,28 +165,28 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                     navigator.splashscreen.hide();
                     //alert('hid navigator!');
                 }),
-                   getImagesFromPhone: cordovaReady(function (onSuccess, onError, options) {
-      window.echo(function () {
-        var that = this,
-          args = arguments;
-
-        if (onSuccess) {
-          $rootScope.$apply(function () {
-            onSuccess.apply(that, args);
-          });
-        }
-      }, function () {
-        var that = this,
-          args = arguments;
-
-        if (onError) {
-          $rootScope.$apply(function () {
-            onError.apply(that, args);
-          });
-        }
-      },
-      options);
-    })
+                getImagesFromPhone: cordovaReady(function (onSuccess) {
+                    window.echo(function () {
+                        var that = this,
+                          args = arguments;
+                
+                        if (onSuccess) {
+                          $rootScope.$apply(function () {
+                            onSuccess.apply(that, args);
+                          });
+                        }
+                      }, function () {
+                        var that = this,
+                          args = arguments;
+                
+                        if (onError) {
+                          $rootScope.$apply(function () {
+                            onError.apply(that, args);
+                          });
+                        }
+                      },
+                      options);
+                    })
             };
         }).run(function($rootScope) {
 
