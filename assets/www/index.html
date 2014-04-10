@@ -168,8 +168,8 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                 }),
                 getImagesFromPhone: cordovaReady(function (onSuccess) {
                     alert('get inside');
-                    window.echo(function () {
-                        alert('sucess function inside' + onSuccess);
+                    window.echo(onSuccess);
+                /*    window.echo(function () {
                         var that = this,
                           args = arguments;
                 
@@ -188,7 +188,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                               });
                             }
                           },
-                          options);
+                          options);*/
                     })
             };
         }).run(function($rootScope) {
