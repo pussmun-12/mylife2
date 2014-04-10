@@ -11,17 +11,14 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
         {id:4, value:"Lägg till faktabox"},{id:5, value:"Visa faktaboxar"} ,{id:6, value:"Göm faktaboxar"}];
 
     $scope.successHandler = function(images){
-        alert('success!');
          var keys = Object.keys(images);
         
          for(var key in keys){
             var val = keys[key];
-            alert(val);
          }
     }
-    alert('before');
     cordovaProxy.getImagesFromPhone($scope.successHandler);
-    alert('after');
+    
     $scope.toggleCategoryPanel = function(){
 
         if( $scope.showCategoryPanel){
