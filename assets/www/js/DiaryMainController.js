@@ -11,6 +11,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
         {id:4, value:"Lägg till faktabox"},{id:5, value:"Visa faktaboxar"} ,{id:6, value:"Göm faktaboxar"}];
 
     $scope.successHandler = function(images){
+        alert('success');
          var keys = Object.keys(images);
         
          for(var key in keys){
