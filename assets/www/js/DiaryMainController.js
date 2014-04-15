@@ -13,10 +13,15 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
     $scope.successHandler = function(images){
         alert('success');
          var keys = Object.keys(images);
-        
+         var array = [];
          for(var key in keys){
             var val = keys[key];
+            var image = images[val];
+            image.path = val;
+            array.push(image);
          }
+         var dbService = new DatabaseService();
+         dbService.saveArray(array);
     }
     cordovaProxy.getImagesFromPhone($scope.successHandler);
     
