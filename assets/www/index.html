@@ -136,6 +136,8 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
             otherwise({redirectTo: '/'});
 }]).factory('dateService', function(){
             return new DateService();
+        }).factory('dbService', function(){
+            return new DatabaseService();
         }).factory('cordovaReady', function() {
             return function (fn) {
                 var queue = [];
