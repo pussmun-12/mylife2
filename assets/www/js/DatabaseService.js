@@ -13,7 +13,7 @@ DatabaseService.prototype.init = function(app){
     request.onsuccess = function(event) {
         that.db = request.result;
         console.log('databaseService.onsuccess');
-     // alert('Verkar funka!');
+        alert('Verkar funka!');
     };
     request.onupgradeneeded = function(event) {
         // console.log('databaseService.onupgradeneeded');
