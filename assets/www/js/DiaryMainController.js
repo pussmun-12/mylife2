@@ -1,4 +1,4 @@
-function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $navigate, dateService,cordovaProxy){
+function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $navigate, dateService,cordovaProxy,dbService){
 
     $scope.windowWidth = window.outerWidth;
     $scope.factBoxes = [];
@@ -20,7 +20,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             image.path = val;
             array.push(image);
          }
-         var dbService = new DatabaseService();
+         
          dbService.saveArray(array);
     }
     cordovaProxy.getImagesFromPhone($scope.successHandler);
