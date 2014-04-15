@@ -40,6 +40,8 @@ DatabaseService.prototype.saveArray = function(array){
 
         var objectStore = transaction.objectStore(that.tableName);
         for (var i in array) {
+            alert(array[i]);
+            alert(array[i].modifiedDate);
             var request = objectStore.add(array[i]);
             request.onsuccess = function(event) {
                 //event.target.result == array[i].id;
