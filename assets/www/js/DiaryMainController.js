@@ -615,6 +615,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 $scope.currentImages = images;
                 console.log('images nedan');
                 console.log(images);
+                alert('promise 4 ok');
                 //$scope.doInitJs = true;
                 /*if(!$scope.serverService.getDatesHavingText()){
                  return $.Deferred($scope.serverService.getDatesHavingTextFromServer()).promise();
@@ -628,6 +629,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 console.log('dates having text and images resolved');
                 console.log(datesHavingText);
                 $scope.datesHavingText = datesHavingText;
+                alert('innan koll på dbservice init');
                 if(!dbService.initialized()){
                     alert('db not initialized');
                     return $.Deferred(dbService.init()).promise();
