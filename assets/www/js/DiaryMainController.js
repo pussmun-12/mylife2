@@ -630,7 +630,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 console.log(datesHavingText);
                 $scope.datesHavingText = datesHavingText;
                 alert('innan koll på dbservice init');
-                if(!dbService.initialized()){
+                if(!dbService.isInitialized()){
                     alert('db not initialized');
                     return $.Deferred(dbService.init()).promise();
                 }
