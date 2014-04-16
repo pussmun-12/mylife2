@@ -2,26 +2,31 @@ function DatabaseService(){
     this.db = null;
     this.dbName = "photosDB11";
     this.tableName = "photosTable11";
-    this.init();
+    //this.init();
+    this.initialized = false;
 }
 DatabaseService.prototype.init = function(app){
     var that = this;
-    var request = window.indexedDB.open(that.dbName, 1);
-    request.onerror = function(event) {
-        alert("Du måste tillåta sparande av data i din lokala databas för att sajten ska fungera.");
-    };
-    request.onsuccess = function(event) {
-        that.db = request.result;
-        console.log('databaseService.onsuccess');
-        alert('Verkar funka!');
-    };
-    request.onupgradeneeded = function(event) {
-        // console.log('databaseService.onupgradeneeded');
-        var db = event.target.result;
-        var objectStore = db.createObjectStore(that.tableName, { keyPath: "id", autoIncrement: true });
-        objectStore.createIndex("modifiedDate", "modifiedDate", { unique: false });
-        objectStore.createIndex("imageKey", "imageKey", { unique: false }); //TODO: Really, should be true, but what if user adds same image several times?
-    };
+    return function(dfd){
+        var request = window.indexedDB.open(that.dbName, 1);
+        request.onerror = function(event) {
+            alert("Du måste tillåta sparande av data i din lokala databas för att sajten ska fungera.");
+        };
+        request.onsuccess = function(event) {
+            that.db = request.result;
+            console.log('databaseService.onsuccess');
+            that.initialized = true;
+            alert('On success!');
+            dfd.resolve();
+        };
+        request.onupgradeneeded = function(event) {
+            // console.log('databaseService.onupgradeneeded');
+            var db = event.target.result;
+            var objectStore = db.createObjectStore(that.tableName, { keyPath: "id", autoIncrement: true });
+            objectStore.createIndex("modifiedDate", "modifiedDate", { unique: false });
+            objectStore.createIndex("imageKey", "imageKey", { unique: false }); //TODO: Really, should be true, but what if user adds same image several times?
+        };
+    }
 }
 DatabaseService.prototype.saveArray = function(array){
     var that = this;
@@ -48,4 +53,8 @@ DatabaseService.prototype.saveArray = function(array){
         }
   
 }
-var dbService = new DatabaseService();
+
+DatabaseService.prototype.initialized = function(){
+  return this.initialized;
+}
+
