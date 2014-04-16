@@ -629,9 +629,11 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 console.log(datesHavingText);
                 $scope.datesHavingText = datesHavingText;
                 if(!dbService.initialized()){
+                    alert('db not initialized');
                     return $.Deferred(dbService.init()).promise();
                 }
                 else{
+                    alert('db is initialzied');
                     return true;
                 }
                 /*if(!$scope.serverService.getDatesHavingText()){
@@ -647,7 +649,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             //TODO: Ta bort prickar i kalenderna (content? som han har lagt dit?) se feb 2012
             //TODO: Fixa bugg i kalenderna som ritar ut tisdag först i veckan när man markerar en dag(?)
             //TODO: Bugg: maintext för 2011 31 finns men i objektet för den dagen hittas ingen maintext, bara factbox
-            var evenNextPromise = $.when(promise4).then(function(initDummy){
+            var evenNextPromise = $.when(promise4).then(function(){
                 
                 //TODO: borde inte göras här, behöver man bara göra en gång per inloggning väl?
                 return $.Deferred($scope.serverService.getCategoryList()).promise();
