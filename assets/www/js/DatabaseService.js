@@ -54,7 +54,7 @@ DatabaseService.prototype.saveArray = function(array){
   
 }
 
-DatabaseService.prototype.initialized = function(){
+DatabaseService.prototype.isInitialized = function(){
   return this.initialized;
 }
 
