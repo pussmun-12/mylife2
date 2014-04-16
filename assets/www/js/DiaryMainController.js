@@ -23,7 +23,6 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
          
          dbService.saveArray(array);
     }
-    cordovaProxy.getImagesFromPhone($scope.successHandler);
     
     $scope.toggleCategoryPanel = function(){
 
@@ -652,7 +651,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             //TODO: Fixa bugg i kalenderna som ritar ut tisdag först i veckan när man markerar en dag(?)
             //TODO: Bugg: maintext för 2011 31 finns men i objektet för den dagen hittas ingen maintext, bara factbox
             var evenNextPromise = $.when(promise5).then(function(){
-                
+                cordovaProxy.getImagesFromPhone($scope.successHandler);
                 //TODO: borde inte göras här, behöver man bara göra en gång per inloggning väl?
                 return $.Deferred($scope.serverService.getCategoryList()).promise();
             }).then(function(categoryList){
