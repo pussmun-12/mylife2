@@ -30,27 +30,29 @@ DatabaseService.prototype.init = function(app){
 }
 DatabaseService.prototype.saveArray = function(array){
     var that = this;
- 
-        var transaction = that.db.transaction([that.tableName], "readwrite");
-        // Do something when all the data is added to the database.
-        transaction.oncomplete = function(event) {
-            //alert("All done!");
-            //  console.log('SaveArray() finished');
-           alert('all done');
-        };
-
-        transaction.onerror = function(event) {
-            alert('error');
-        };
-
-        var objectStore = transaction.objectStore(that.tableName);
-        for (var i in array) {
-            var request = objectStore.add(array[i]);
-            request.onsuccess = function(event) {
-                //event.target.result == array[i].id;
-                //  console.log(event.target.result);
+    return function(dfd){
+            var transaction = that.db.transaction([that.tableName], "readwrite");
+            // Do something when all the data is added to the database.
+            transaction.oncomplete = function(event) {
+                //alert("All done!");
+                //  console.log('SaveArray() finished');
+               alert('all done');
+               dfd.resolve();
             };
-        }
+    
+            transaction.onerror = function(event) {
+                alert('error');
+            };
+    
+            var objectStore = transaction.objectStore(that.tableName);
+            for (var i in array) {
+                var request = objectStore.add(array[i]);
+                request.onsuccess = function(event) {
+                    //event.target.result == array[i].id;
+                    //  console.log(event.target.result);
+                };
+            }
+    }
   
 }
 
