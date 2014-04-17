@@ -20,8 +20,12 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             image.path = val;
             array.push(image);
          }
-         
-         dbService.saveArray(array);
+         var promise = $.Deferred(dbService.saveArray(array)).promise();
+         $.when(promise).then(function(data){
+            //console.log('saved factbox');
+            alert(data);
+        }
+        
     }
     
     $scope.toggleCategoryPanel = function(){
