@@ -21,9 +21,9 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             array.push(image);
          }
          var promise = $.Deferred(dbService.saveArray(array)).promise();
-         $.when(promise).then(function(data){
+         $.when(promise).then(function(){
             //console.log('saved factbox');
-            alert(data);
+            alert();
         }
         
     }
