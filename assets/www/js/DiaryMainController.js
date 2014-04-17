@@ -18,6 +18,8 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             var val = keys[key];
             var image = images[val];
             image.path = val;
+            image.date = dateService.getISODateStringFromMilliSeconds(image.modifiedDate);
+            console.log(image.date);
             array.push(image);
          }
          var promise = $.Deferred(dbService.saveArray(array)).promise();
