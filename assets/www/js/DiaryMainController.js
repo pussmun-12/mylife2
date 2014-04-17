@@ -23,8 +23,8 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
          var promise = $.Deferred(dbService.saveArray(array)).promise();
          $.when(promise).then(function(){
             //console.log('saved factbox');
-            alert();
-        }
+            alert('promise funkar');
+        });
         
     }
     
