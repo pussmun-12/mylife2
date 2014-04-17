@@ -1,4 +1,3 @@
-
 /**
  * Created by IntelliJ IDEA.
  * User: hakangleissman
@@ -37,5 +36,5 @@ DateService.prototype.getISODateStringFromJSDate = function(date) {
   month = month.length > 1 ? month : '0' + month;
   var day = date.getDate().toString();
   day = day.length > 1 ? day : '0' + day;
-  return year + '/' + month + '/' + day;
+  return year + '-' + month + '-' + day;
 }
