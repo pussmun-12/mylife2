@@ -15,11 +15,13 @@
     <link rel="stylesheet" type="text/css" href="https://rawgithub.com/ajoslin/angular-mobile-nav/master/mobile-nav.css">
     <script type="text/javascript" src="js/cordova.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/indexeddbshim.js"></script>
     <script src="js/jquery.calendario.js"></script>
     <script type="text/javascript" src="js/data.js"></script>
     <script src="js/modernizr.custom.63321.js"></script>
     <script src="js/CalendarUtil.js"></script>
     <script type="text/javascript" src="js/DateService.js"></script>
+    <script type="text/javascript" src="js/DatabaseService.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-resource.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular-route.js"></script>
@@ -135,6 +137,8 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
             otherwise({redirectTo: '/'});
 }]).factory('dateService', function(){
             return new DateService();
+        }).factory('dbService', function(){
+            return new DatabaseService();
         }).factory('cordovaReady', function() {
             return function (fn) {
                 var queue = [];

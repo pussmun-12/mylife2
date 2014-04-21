@@ -1,4 +1,4 @@
-function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $navigate, dateService,cordovaProxy){
+function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $navigate, dateService,cordovaProxy,dbService){
 
     $scope.windowWidth = window.outerWidth;
     $scope.factBoxes = [];
@@ -13,13 +13,22 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
     $scope.successHandler = function(images){
         alert('success');
          var keys = Object.keys(images);
-        
+         var array = [];
          for(var key in keys){
-            var imagePath = keys[key];
-            var imageData = images[imagePath];
+            var val = keys[key];
+            var image = images[val];
+            image.path = val;
+            image.date = dateService.getISODateStringFromMilliSeconds(image.modifiedDate);
+            console.log(image.date);
+            array.push(image);
          }
+         var promise = $.Deferred(dbService.saveArray(array)).promise();
+         $.when(promise).then(function(){
+            //console.log('saved factbox');
+            alert('promise funkar');
+        });
+        
     }
-    cordovaProxy.getImagesFromPhone($scope.successHandler);
     
     $scope.toggleCategoryPanel = function(){
 
@@ -611,6 +620,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 $scope.currentImages = images;
                 console.log('images nedan');
                 console.log(images);
+                alert('promise 4 ok');
                 //$scope.doInitJs = true;
                 /*if(!$scope.serverService.getDatesHavingText()){
                  return $.Deferred($scope.serverService.getDatesHavingTextFromServer()).promise();
@@ -620,15 +630,34 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                  }*/
                 return [];
             });
+            var promise5 = $.when(promise4).then(function(datesHavingText){
+                console.log('dates having text and images resolved');
+                console.log(datesHavingText);
+                $scope.datesHavingText = datesHavingText;
+                alert('innan koll på dbservice init');
+                if(!dbService.isInitialized()){
+                    alert('db not initialized');
+                    return $.Deferred(dbService.init()).promise();
+                }
+                else{
+                    alert('db is initialzied');
+                    return true;
+                }
+                /*if(!$scope.serverService.getDatesHavingText()){
+                 return $.Deferred($scope.serverService.getDatesHavingTextFromServer()).promise();
+                 }
+                 else{
+                 return $scope.serverService.getDatesHavingText();
+                 }*/
+              
+            });
             //TODO: Chrome kraschade när jag bytte dag mitt i transition mellan biler i karusellen. Ev. pausa karusellen vid klick i kalandern. Eller vänta på pågående transition. Hmm?
             //TODO: Fixa en onload event på första imagen i karusellen istället för den timeout på 3(?) sek. som jag nu har
             //TODO: Ta bort prickar i kalenderna (content? som han har lagt dit?) se feb 2012
             //TODO: Fixa bugg i kalenderna som ritar ut tisdag först i veckan när man markerar en dag(?)
             //TODO: Bugg: maintext för 2011 31 finns men i objektet för den dagen hittas ingen maintext, bara factbox
-            var evenNextPromise = $.when(promise4).then(function(datesHavingText){
-                console.log('dates having text and images resolved');
-                console.log(datesHavingText);
-                $scope.datesHavingText = datesHavingText;
+            var evenNextPromise = $.when(promise5).then(function(){
+                cordovaProxy.getImagesFromPhone($scope.successHandler);
                 //TODO: borde inte göras här, behöver man bara göra en gång per inloggning väl?
                 return $.Deferred($scope.serverService.getCategoryList()).promise();
             }).then(function(categoryList){
