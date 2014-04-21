@@ -1,7 +1,7 @@
 function DatabaseService(){
     this.db = null;
-    this.dbName = "photosDB11";
-    this.tableName = "photosTable11";
+    this.dbName = "photosDB12";
+    this.tableName = "photosTable12";
     //this.init();
     this.initialized = false;
 }
@@ -16,14 +16,14 @@ DatabaseService.prototype.init = function(app){
             that.db = request.result;
             console.log('databaseService.onsuccess');
             that.initialized = true;
-            alert('On success!');
+
             dfd.resolve();
         };
         request.onupgradeneeded = function(event) {
             // console.log('databaseService.onupgradeneeded');
             var db = event.target.result;
             var objectStore = db.createObjectStore(that.tableName, { keyPath: "id", autoIncrement: true });
-            objectStore.createIndex("modifiedDate", "modifiedDate", { unique: false });
+            objectStore.createIndex("date", "date", { unique: false });
             objectStore.createIndex("imageKey", "imageKey", { unique: false }); //TODO: Really, should be true, but what if user adds same image several times?
         };
     }
@@ -36,7 +36,7 @@ DatabaseService.prototype.saveArray = function(array){
             transaction.oncomplete = function(event) {
                 //alert("All done!");
                 //  console.log('SaveArray() finished');
-               alert('all done');
+
                dfd.resolve();
             };
     
@@ -54,6 +54,35 @@ DatabaseService.prototype.saveArray = function(array){
             }
     }
   
+}
+
+DatabaseService.prototype.getImagesForDate = function(date){
+    console.log('Date in getImagesForDate: ' + date);
+    var that = this;
+    return function(df){
+        // console.log('dbService.getImagesForDate()');
+
+        var trans =  that.db.transaction(that.tableName);
+        var index = trans.objectStore(that.tableName).index('date');
+        var imagesForDate = [];
+        //var showImageFunc = app.getImagesForDateCallback(date, imagesForDate);
+        trans.oncomplete = function(){
+            console.log(imagesForDate);
+            df.resolve(imagesForDate);
+        }
+        var jj = 0;
+        var singleKeyRange = IDBKeyRange.only(date);
+        //var boundKeyRange = IDBKeyRange.bound(date, seconddate, false, false);
+        index.openCursor(singleKeyRange).onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor) {
+                imagesForDate[jj] = cursor.value;
+                jj++;
+                cursor.continue();
+            }
+        };
+    }
+
 }
 
 DatabaseService.prototype.isInitialized = function(){

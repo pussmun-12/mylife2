@@ -11,23 +11,21 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
         {id:4, value:"Lägg till faktabox"},{id:5, value:"Visa faktaboxar"} ,{id:6, value:"Göm faktaboxar"}];
 
     $scope.successHandler = function(images){
-
-        var keys = Object.keys(images);
-        var array = [];
-        for(var key in keys){
+        alert('success');
+         var keys = Object.keys(images);
+         var array = [];
+         for(var key in keys){
             var val = keys[key];
             var image = images[val];
-            //image.path = val;
-
+            image.path = val;
             image.date = dateService.getISODateStringFromMilliSeconds(image.modifiedDate);
-            console.log('IMAGE:');
-            console.log(image);
+            console.log(image.date);
             array.push(image);
-        }
-        var promise = $.Deferred(dbService.saveArray(array)).promise();
-        $.when(promise).then(function(){
+         }
+         var promise = $.Deferred(dbService.saveArray(array)).promise();
+         $.when(promise).then(function(){
             //console.log('saved factbox');
-
+            alert('promise funkar');
         });
 
     }
@@ -542,10 +540,8 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
 
     $scope.goTo = function(path, mode){
 
-        if(mode)
-            $navigate.go(path, mode);
-        else
-            $navigate.go(path);
+
+        $navigate.go(path, mode);
         //$scope.variable = 2;
 
 
@@ -607,7 +603,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
 
             var promise3 = $.when(promise2).then(function(data){
                 $scope.dateData = data;
-                //TODO: Ta bort nedanstående promise return
+
                 //return $.Deferred($scope.dbService.getImagesForDate2($scope.currentDate)).promise();
                 var css = 'background-image:url(\'http://images.nationalgeographic.com/wpf/media-live/photos/000/003/cache/mt-des-voeux_300_600x450.jpg\');' +
                     'background-repeat:no-repeat;' +
@@ -621,10 +617,10 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             });
 
             var promise4 = $.when(promise3).then(function(images){
-                //$scope.currentImages = images;
-                //console.log('images nedan');
-                //console.log(images);
-
+                $scope.currentImages = images;
+                console.log('images nedan');
+                console.log(images);
+                alert('promise 4 ok');
                 //$scope.doInitJs = true;
                 /*if(!$scope.serverService.getDatesHavingText()){
                  return $.Deferred($scope.serverService.getDatesHavingTextFromServer()).promise();
@@ -638,13 +634,13 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 console.log('dates having text and images resolved');
                 console.log(datesHavingText);
                 $scope.datesHavingText = datesHavingText;
-
+                alert('innan koll på dbservice init');
                 if(!dbService.isInitialized()){
-
+                    alert('db not initialized');
                     return $.Deferred(dbService.init()).promise();
                 }
                 else{
-
+                    alert('db is initialzied');
                     return true;
                 }
                 /*if(!$scope.serverService.getDatesHavingText()){
@@ -660,74 +656,18 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             //TODO: Ta bort prickar i kalenderna (content? som han har lagt dit?) se feb 2012
             //TODO: Fixa bugg i kalenderna som ritar ut tisdag först i veckan när man markerar en dag(?)
             //TODO: Bugg: maintext för 2011 31 finns men i objektet för den dagen hittas ingen maintext, bara factbox
-            var promise6 = $.when(promise5).then(function(){
-                //TODO: kör bara en gång per session
-                if(!cordovaProxy.isInitialized()){
-                    console.log('not initialized');
-                    return $.Deferred(cordovaProxy.getImagesFromPhone(localStorage.getItem("lastPhotoModifiedDate"))).promise();
-                }
-                else{
-                    console.log('already initialized!');
-                    return {};
-                }
-            });
-            var promise7 =  $.when(promise6).then(function(images){
-                var keys = Object.keys(images);
-                var array = [];
-                var maxModifiedDate;
-                for(var key in keys){
-                    var val = keys[key];
-                    var image = images[val];
-                    //image.path = val;
-                    if(!maxModifiedDate){
-                        maxModifiedDate = image.modifiedDate;
-                    }
-                    else if(image.modifiedDate > maxModifiedDate){
-                        maxModifiedDate = image.modifiedDate;
-                    }
-                    image.date = dateService.getISODateStringFromMilliSeconds(image.modifiedDate);
-                    console.log('IMAGE:');
-                    console.log(image);
-                    array.push(image);
-                }
-                if(maxModifiedDate){
-                    localStorage.setItem("lastPhotoModifiedDate", maxModifiedDate);
-                }
-                return $.Deferred(dbService.saveArray(array)).promise();
-            });
-            var promise8 =  $.when(promise7).then(function(){
+            var evenNextPromise = $.when(promise5).then(function(){
+                cordovaProxy.getImagesFromPhone($scope.successHandler);
                 //TODO: borde inte göras här, behöver man bara göra en gång per inloggning väl?
                 return $.Deferred($scope.serverService.getCategoryList()).promise();
-            });
-            var promise9 =   $.when(promise8).then(function(categoryList){
-                $scope.imageCategories = categoryList['imageCategories'];
-                return $.Deferred(dbService.getImagesForDate($scope.currentDate)).promise();
-            }) .then(function(currentImages){
+            }).then(function(categoryList){
                     console.log('Datahämtning färdig');
-                    console.log(currentImages);
-                    $scope.currentImages = currentImages;
                     //console.log(data);
-                    //TODO: Fixa hämtning från servern
-                    for(var i = 0; i < $scope.currentImages.length; i++){
-                        var cImage = $scope.currentImages[i];
-                        var css;
-                        if(cImage.width > cImage.height ){
-                            css = 'background-image:url(\'' + cImage.path + '\');' +
-                            'background-repeat:no-repeat;' +
-                            'background-position:center;' +
-                            'background-size:cover;' +
-                            'width:100%;' +
-                            'height:100%;';
-                        }
-                        cImage.css = css;
-                        var categories = [{name:'-'},{name:'-'},{name:'-'},{name:'-'},{name:'-'}];
-                        cImage.categories = categories;
-                        cImage.captionExists = false;
-
-                    }
 
                     console.log($scope.datesHavingText);
 
+                    console.log(categoryList);
+                    $scope.imageCategories = categoryList['imageCategories'];
                     if(!$scope.imageCategories){
                         $scope.imageCategories = [];
                     }
@@ -898,3 +838,10 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
 
 
 }
+/**
+ * Created by IntelliJ IDEA.
+ * User: hakangleissman
+ * Date: 2014-04-21
+ * Time: 17:27
+ * To change this template use File | Settings | File Templates.
+ */

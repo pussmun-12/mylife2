@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 function DateService(){
-    this.dateString = '2014-01-01';
-    this.dateStringDMYY = '1/1-14';
+    this.date = new Date();
+    this.dateString = this.getISODateStringFromJSDate(this.date);
+    this.dateStringDMYY = this.getShortDateStringFromISODate(this.date);
 }
 
 DateService.prototype.setCurrentDate = function(date){
@@ -31,10 +32,19 @@ DateService.prototype.getISODateStringFromMilliSeconds = function(millis){
 }
 
 DateService.prototype.getISODateStringFromJSDate = function(date) {
-  var year = date.getFullYear();
-  var month = (1 + date.getMonth()).toString();
-  month = month.length > 1 ? month : '0' + month;
-  var day = date.getDate().toString();
-  day = day.length > 1 ? day : '0' + day;
-  return year + '-' + month + '-' + day;
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth()).toString();
+    month = month.length > 1 ? month : '0' + month;
+    var day = date.getDate().toString();
+    day = day.length > 1 ? day : '0' + day;
+    return year + '-' + month + '-' + day;
+}
+
+DateService.prototype.getShortDateStringFromISODate = function(date){
+    var year = '' + date.getFullYear();
+    var month = (1 + date.getMonth()).toString();
+
+    var day = date.getDate().toString();
+
+    return day + '/' + month + '-' + year.substring(2,4);
 }

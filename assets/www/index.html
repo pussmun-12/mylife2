@@ -91,16 +91,22 @@ document.addEventListener('focusout', function(e) {
     //$("html, body").animate({ scrollTop: "0px" });
 });
 
-window.echo = function(onSuccess) {
-   cordova.exec(onSuccess, function(err) {
-        onSuccess('Nothing to echo.');
-    }, "Echo", "echo", ['dummy',window.outerWidth,300]);
-   
+window.echo = function() {
+    return function(dfd){
+        function onSuccess(images){
+            console.log('onSuccess before dfd.resolve()');
+            dfd.resolve(images);
+        }
+        cordova.exec(onSuccess, function(err) {
+                    onSuccess('Nothing to echo.');
+                }, "Echo", "echo", ['dummy',window.outerWidth,300]
+        );
+    }
 };
 
 /*$(function() {
-    FastClick.attach(document.body);
-});*/
+ FastClick.attach(document.body);
+ });*/
 
 //Angular stuff, put in separate files
 angular.module('mylife.directive', [ 'ngRoute','ajoslin.mobile-navigate' ]);
@@ -162,6 +168,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
             };
         }).factory('cordovaProxy', function ($rootScope, cordovaReady) {
             return {
+                initialized: false,
                 getCurrentPosition: cordovaReady(function () {
                     console.log('getCUrrentPOsstion()');
                 }),
@@ -170,29 +177,62 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                     navigator.splashscreen.hide();
                     //alert('hid navigator!');
                 }),
-                getImagesFromPhone: cordovaReady(function (onSuccess) {
-                    window.echo(onSuccess);
-                /*    window.echo(function () {
-                        var that = this,
-                          args = arguments;
-                
-                        if (onSuccess) {
-                          $rootScope.$apply(function () {
-                            onSuccess.apply(that, args);
-                          });
-                        }
-                      }, function () {
-                        var that = this,
-                         args = arguments;
-
-                            if (onError) {
-                              $rootScope.$apply(function () {
-                                onError.apply(that, args);
-                              });
+                isInitialized: function(){
+                   return this.initialized;
+                },
+                /* getImagesFromPhone: cordovaReady(function (onSuccess) {  */
+                getImagesFromPhone: function(lastModified){
+                    /*window.echo(onSuccess);  */
+                    var that = this;
+                    return function(dfd){
+                        var data = {};
+                        if(false){
+                            data.test = {
+                                path: 'http://wesbiomes.weebly.com/uploads/8/8/8/3/8883471/3227190_orig.jpg',
+                                width: 568,
+                                height: 426,
+                                rotate: 0,
+                                modifiedDate: 1398095441156,
+                                imageKey: 'DSC12901398095441156'
                             }
-                          },
-                          options);*/
-                    })
+                        }
+                        that.initialized = true;
+                        dfd.resolve(data);
+                    }
+
+
+                    /*
+
+                     width:400px
+                     jso.put("width", width);
+                     jso.put("height",height);
+                     jso.put("rotate",rotate);
+                     //jso.put("url", encodeTobase64(scaled));
+                     jso.put("modifiedDate", file1[i].lastModified());
+                     jso.put("imageKey"}  */
+
+                    // onSuccess(data);
+                    /*    window.echo(function () {
+                     var that = this,
+                     args = arguments;
+
+                     if (onSuccess) {
+                     $rootScope.$apply(function () {
+                     onSuccess.apply(that, args);
+                     });
+                     }
+                     }, function () {
+                     var that = this,
+                     args = arguments;
+
+                     if (onError) {
+                     $rootScope.$apply(function () {
+                     onError.apply(that, args);
+                     });
+                     }
+                     },
+                     options);*/
+                }
             };
         }).run(function($rootScope) {
 
@@ -237,10 +277,10 @@ var MyLifeCtrl = [ '$scope', '$http', '$q','$location', '$navigate', 'cordovaPro
     $scope.diaryStyle ="1";
 
     $scope.menuItems = [{name:"Visa dagbok", url:"diary"},{name:"Visa bilder för kategori", url:"imgbycategory"},{name:"Ladda upp bilder", url:"imagepicker"}];
- /*   setTimeout(function(){
-        var event = new Event('deviceready');
-        document.dispatchEvent(event);
-    }, 5000); */
+    /*   setTimeout(function(){
+     var event = new Event('deviceready');
+     document.dispatchEvent(event);
+     }, 5000); */
     console.log('hideSplashscreen!');
     cordovaProxy.hideSplashscreen();
     //1. Display loading message..
