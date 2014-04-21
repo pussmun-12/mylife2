@@ -15,7 +15,8 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
          var keys = Object.keys(images);
         
          for(var key in keys){
-            var val = keys[key];
+            var imagePath = keys[key];
+            var imageData = images[imagePath];
          }
     }
     cordovaProxy.getImagesFromPhone($scope.successHandler);
