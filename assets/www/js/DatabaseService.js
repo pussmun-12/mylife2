@@ -30,6 +30,7 @@ DatabaseService.prototype.init = function(app){
 }
 DatabaseService.prototype.saveArray = function(array){
     var that = this;
+    alert(array);
     return function(dfd){
             var transaction = that.db.transaction([that.tableName], "readwrite");
             // Do something when all the data is added to the database.
@@ -52,6 +53,7 @@ DatabaseService.prototype.saveArray = function(array){
                     //  console.log(event.target.result);
                 };
             }
+            alert('after loop in saveArray()');
     }
   
 }
