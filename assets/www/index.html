@@ -186,7 +186,7 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                     var that = this;
                     return function(dfd){
                         var data = {};
-                        if(lastModified > 1398095441156){
+                        if(!lastModified || (lastModified > 1398095441156)){
                             data.test = {
                                 path: 'http://wesbiomes.weebly.com/uploads/8/8/8/3/8883471/3227190_orig.jpg',
                                 width: 568,
