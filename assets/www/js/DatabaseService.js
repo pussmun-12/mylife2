@@ -37,7 +37,7 @@ DatabaseService.prototype.saveArray = function(array){
             transaction.oncomplete = function(event) {
                 //alert("All done!");
                 //  console.log('SaveArray() finished');
-
+            alert('resolving now..');
                dfd.resolve();
             };
     
