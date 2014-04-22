@@ -30,14 +30,18 @@ DatabaseService.prototype.init = function(app){
 }
 DatabaseService.prototype.saveArray = function(array){
     var that = this;
-    alert(array);
+   
     return function(dfd){
+        if(!array || array.length === 0){
+             alert('resolving empty array now..');
+            dfd.resolve();
+        }
             var transaction = that.db.transaction([that.tableName], "readwrite");
             // Do something when all the data is added to the database.
             transaction.oncomplete = function(event) {
                 //alert("All done!");
                 //  console.log('SaveArray() finished');
-            alert('resolving now..');
+              alert('resolving now..');
                dfd.resolve();
             };
     
