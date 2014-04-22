@@ -693,6 +693,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 if(maxModifiedDate){
                     localStorage.setItem("lastPhotoModifiedDate", maxModifiedDate);
                 }
+                alert('before savearray');
                 return $.Deferred(dbService.saveArray(array)).promise();
             });
             var promise8 =  $.when(promise7).then(function(){
@@ -701,6 +702,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
             });
             var promise9 =   $.when(promise8).then(function(categoryList){
                 $scope.imageCategories = categoryList['imageCategories'];
+                alert('before get images for date');
                 return $.Deferred(dbService.getImagesForDate($scope.currentDate)).promise();
             }) .then(function(currentImages){
                     console.log('Datahämtning färdig');
