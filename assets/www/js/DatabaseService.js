@@ -35,6 +35,7 @@ DatabaseService.prototype.saveArray = function(array){
         if(!array || array.length === 0){
              alert('resolving empty array now..');
             dfd.resolve();
+            return;
         }
             var transaction = that.db.transaction([that.tableName], "readwrite");
             // Do something when all the data is added to the database.
