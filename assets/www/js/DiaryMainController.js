@@ -56,7 +56,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
     }
 
     $scope.go = function(path){
-        console.log('go');
+        console.log('go and hello!');
         $('#myCarousel').carousel('stop');
         if($scope.diaryStyle === "1")
             $scope.diaryStyle ="2";
