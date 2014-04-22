@@ -33,7 +33,7 @@ DatabaseService.prototype.saveArray = function(array){
    
     return function(dfd){
         if(!array || array.length === 0){
-             alert('resolving empty array now..');
+            
             dfd.resolve();
             return;
         }
@@ -42,7 +42,7 @@ DatabaseService.prototype.saveArray = function(array){
             transaction.oncomplete = function(event) {
                 //alert("All done!");
                 //  console.log('SaveArray() finished');
-              alert('resolving now..');
+             
                dfd.resolve();
             };
     
