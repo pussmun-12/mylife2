@@ -15,30 +15,34 @@ public class Echo extends CordovaPlugin {
 	@Override
 	public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 		if (action.equals("echo")) {
-			String message = args.getString(0); 
+			String modified = args.getString(0); 
 			int width = args.getInt(1);
 			int height = args.getInt(2);
-			this.echo(message,width,height, callbackContext);
+			this.echo(modified,width,height, callbackContext);
 			return true;
 		}
 		return false;
 	}
 
-	private void echo(String message, int width, int height, CallbackContext callbackContext) {
-		if (message != null && message.length() > 0) {
-
-
-
+	private void echo(String modified, int width, int height, CallbackContext callbackContext) {
+		long modifiedL = -1;
+		if (modified != null && modified.length() > 0) {
 			try{
-				callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, getImgPaths(width, height)));
-				
+				modifiedL = Long.parseLong(modified);
 			}
-			catch(JSONException e){
-				callbackContext.error("ERROR!");
+			catch(Exception e){
+				//modifiedL = -1 still
 			}
-		} else {
-			callbackContext.error("Expected one non-empty string argument.");
 		}
+	
+		try{
+			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, getImgPaths(width, height, modifiedL)));
+				
+		}
+		catch(JSONException e){
+			callbackContext.error("ERROR!");
+		}
+	
 	}
 	
 	private JSONObject getDummy() throws JSONException{
@@ -48,29 +52,31 @@ public class Echo extends CordovaPlugin {
 		return toReturn;
 	}
 
-	private JSONObject getImgPaths(int width, int height) throws JSONException {
+	private JSONObject getImgPaths(int width, int height, long modified) throws JSONException {
 		final String path = android.os.Environment.DIRECTORY_DCIM;
 		File filey = new File("/mnt/sdcard/DCIM/100ANDRO");
 	//	File file[] = Environment.getExternalStorageDirectory().listFiles();
 		File file[] = filey.listFiles();
 		JSONObject toReturn = new JSONObject();
 		
-		recursiveFileFind(file, toReturn,width,height);
+		recursiveFileFind(file, toReturn,width,height, modified);
 		return toReturn;
 	}
 
-	public void recursiveFileFind(File[] file1, JSONObject toReturn, int windowWidth, int windowHeight) throws JSONException{
+	public void recursiveFileFind(File[] file1, JSONObject toReturn, int windowWidth, int windowHeight, long modified) throws JSONException{
 		int i = 0;
 		String filePath="";
 		if(file1!=null){
 			while(i!=file1.length){
 				filePath = file1[i].getAbsolutePath();
+				
 				if(file1[i].isDirectory()){
 					File file[] = file1[i].listFiles();
 					recursiveFileFind(file, toReturn,windowWidth,windowHeight);
 				}
 				else{
-					if(file1[i].getName().toLowerCase().endsWith(".jpg") ||file1[i].getName().toLowerCase().endsWith(".jpeg")){
+					if(file1[i].getName().toLowerCase().endsWith(".jpg") || file1[i].getName().toLowerCase().endsWith(".jpeg")
+						&& file1[i].lastModified() > modified){
 						
 						BitmapFactory.Options options = new BitmapFactory.Options();
 						options.inJustDecodeBounds = true;
