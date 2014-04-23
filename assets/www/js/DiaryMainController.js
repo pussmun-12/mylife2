@@ -678,7 +678,7 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 for(var key in keys){
                     var val = keys[key];
                     var image = images[val];
-                    //image.path = val;
+                    image.path = val;
                     if(!maxModifiedDate){
                         maxModifiedDate = image.modifiedDate;
                     }
