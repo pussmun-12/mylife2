@@ -72,7 +72,7 @@ public class Echo extends CordovaPlugin {
 				
 				if(file1[i].isDirectory()){
 					File file[] = file1[i].listFiles();
-					recursiveFileFind(file, toReturn,windowWidth,windowHeight);
+					recursiveFileFind(file, toReturn,windowWidth,windowHeight, modified);
 				}
 				else{
 					if(file1[i].getName().toLowerCase().endsWith(".jpg") || file1[i].getName().toLowerCase().endsWith(".jpeg")
