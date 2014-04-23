@@ -705,6 +705,8 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                 alert('before get images for date');
                 return $.Deferred(dbService.getImagesForDate($scope.currentDate)).promise();
             }) .then(function(currentImages){
+                alert('after get images for date');
+                alert(currentImages.length);
                     console.log('Datahämtning färdig');
                     console.log(currentImages);
                     $scope.currentImages = currentImages;
