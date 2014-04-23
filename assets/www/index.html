@@ -192,8 +192,9 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                                 imageKey: 'DSC12901398095441156'
                             }
                         }*/
-                        window.echo(function(){
+                        window.echo(function(data){
                              alert('on success called from window.echo');
+                             alert(data);
                              that.initialized = true;
                              dfd.resolve(data);
                         });
