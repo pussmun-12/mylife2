@@ -92,16 +92,11 @@ document.addEventListener('focusout', function(e) {
 });
 
 window.echo = function() {
-    return function(dfd){
-        function onSuccess(images){
-            console.log('onSuccess before dfd.resolve()');
-            dfd.resolve(images);
-        }
-        cordova.exec(onSuccess, function(err) {
-                    onSuccess('Nothing to echo.');
-                }, "Echo", "echo", ['dummy',window.outerWidth,300]
-        );
-    }
+    alert('window.echo called');
+    cordova.exec(onSuccess, function(err) {
+            onSuccess('Nothing to echo.');
+       }, "Echo", "echo", ['dummy',window.outerWidth,300]);
+    
 };
 
 /*$(function() {
@@ -183,9 +178,10 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                 /* getImagesFromPhone: cordovaReady(function (onSuccess) {  */
                 getImagesFromPhone: function(lastModified){
                     /*window.echo(onSuccess);  */
+                    alert('get images from phone: ' + lastModified);
                     var that = this;
                     return function(dfd){
-                        var data = {};
+                       /* var data = {};
                         if(!lastModified || (lastModified > 1398095441156)){
                             data.test = {
                                 path: 'http://wesbiomes.weebly.com/uploads/8/8/8/3/8883471/3227190_orig.jpg',
@@ -195,9 +191,13 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                                 modifiedDate: 1398095441156,
                                 imageKey: 'DSC12901398095441156'
                             }
-                        }
-                        that.initialized = true;
-                        dfd.resolve(data);
+                        }*/
+                        window.echo(function(){
+                             alert('on success called from window.echo');
+                             that.initialized = true;
+                             dfd.resolve(data);
+                        });
+                       
                     }
 
 
