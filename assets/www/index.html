@@ -91,7 +91,7 @@ document.addEventListener('focusout', function(e) {
     //$("html, body").animate({ scrollTop: "0px" });
 });
 
-window.echo = function() {
+window.echo = function(onSuccess) {
     alert('window.echo called');
     cordova.exec(onSuccess, function(err) {
             onSuccess('Nothing to echo.');
