@@ -716,12 +716,25 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                         var cImage = $scope.currentImages[i];
                         var css;
                         if(cImage.width > cImage.height ){
+                            if(cImage.rotate === 90){
+                                   css = 'background-image:url(\'' + cImage.path + '\');' +
+                                    'background-repeat:no-repeat;' +
+                                    'background-position:center;' +
+                                   '-webkit-transform: rotate(90deg);' +
+                                   'max-width:300px;' +
+                                   'margin: 0px auto;' +
+                                   'background-size: contain;' +
+                                   'width: 100%;' + 
+                                    'height:100%;';
+                            }
+                            else{
                             css = 'background-image:url(\'' + cImage.path + '\');' +
                             'background-repeat:no-repeat;' +
                             'background-position:center;' +
                             'background-size:cover;' +
                             'width:100%;' +
                             'height:100%;';
+                            }
                         }
                         cImage.css = css;
                         var categories = [{name:'-'},{name:'-'},{name:'-'},{name:'-'},{name:'-'}];
