@@ -117,5 +117,9 @@ h1 {
     to { opacity: 1.0; }
 }
  
-
+.rotate{ 
+  -webkit-transform: rotate(90deg); 
+  margin: 0px auto;
+  background-size: contain;
+}
 
