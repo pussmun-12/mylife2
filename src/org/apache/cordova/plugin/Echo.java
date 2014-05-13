@@ -21,6 +21,14 @@ public class Echo extends CordovaPlugin {
 			this.echo(modified,width,height, callbackContext);
 			return true;
 		}
+		else if(action.equals("scale"){
+			String path = args.getString(0); 
+			int width = args.getInt(1);
+			int height = args.getInt(2);
+			int windowWidth = args.getInt(3);
+			this.getImageScaled(path,windowWidth, width, height,callbackContext);
+			return true;
+		}
 		return false;
 	}
 
@@ -152,6 +160,24 @@ public class Echo extends CordovaPlugin {
 		//	Log.e("LOOK", imageEncoded); 
 	   return imageEncoded; 
 	}
+	
+	public void getImageScaled(String filePath, int windowWidth, int width, int height){
+		double scaleFactor = (double)windowWidth / (double)width;
+		int requestHeight = (int)(Math.round(scaleFactor * (double)height));
+		int requestWidth  = windowWidth;
+		Bitmap bitmap = getScaledBitmap(filePath, requestHeight, requestWidth);
+		JSONObject jso = new JSONObject();
+		jso.put("url", encodeTobase64(bitmap));
+		//return jso;
+		try{
+			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, jso));
+				
+		}
+		catch(JSONException e){
+			callbackContext.error("ERROR!");
+		}
+	}
+	
 	public Bitmap getScaledBitmap(String pathOfInputImage, int dstHeight, int dstWidth){
 		Bitmap resizedBitmap = null;
 		
