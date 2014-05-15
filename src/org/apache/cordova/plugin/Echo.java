@@ -21,7 +21,7 @@ public class Echo extends CordovaPlugin {
 			this.echo(modified,width,height, callbackContext);
 			return true;
 		}
-		else if(action.equals("scale"){
+		else if(action.equals("scale")){
 			String path = args.getString(0); 
 			int width = args.getInt(1);
 			int height = args.getInt(2);
