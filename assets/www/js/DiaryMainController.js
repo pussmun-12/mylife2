@@ -714,6 +714,9 @@ function DiaryMainController($scope, $log, $timeout, $rootScope, $location, $nav
                     //TODO: Fixa hämtning från servern
                     for(var i = 0; i < $scope.currentImages.length; i++){
                         var cImage = $scope.currentImages[i];
+                        if(i === 0){
+                            cordovaProxy.scaleImage(cImage);
+                        }
                         var css;
                         if(cImage.width > cImage.height ){
                             if(cImage.rotate === 90){
