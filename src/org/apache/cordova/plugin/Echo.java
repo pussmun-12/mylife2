@@ -167,7 +167,14 @@ public class Echo extends CordovaPlugin {
 		int requestWidth  = windowWidth;
 		Bitmap bitmap = getScaledBitmap(filePath, requestHeight, requestWidth);
 		JSONObject jso = new JSONObject();
-		jso.put("url", encodeTobase64(bitmap));
+		try{
+			jso.put("url", encodeTobase64(bitmap));
+		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			jso.put("error", e.getMessage());
+		}
 		//return jso;
 		try{
 			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, jso));
