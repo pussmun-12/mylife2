@@ -161,7 +161,7 @@ public class Echo extends CordovaPlugin {
 	   return imageEncoded; 
 	}
 	
-	public void getImageScaled(String filePath, int windowWidth, int width, int height){
+	public void getImageScaled(String filePath, int windowWidth, int width, int height, CallbackContext callbackContext){
 		double scaleFactor = (double)windowWidth / (double)width;
 		int requestHeight = (int)(Math.round(scaleFactor * (double)height));
 		int requestWidth  = windowWidth;
