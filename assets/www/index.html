@@ -99,6 +99,14 @@ window.echo = function(onSuccess) {
     
 };
 
+
+window.scaleImage = function(onSuccess, image) {
+    alert('window.scaleImage called');
+    cordova.exec(onSuccess, function(err) {
+            onSuccess('Nothing to echo.');
+       }, "Echo", "scale", [image.path,window.outerWidth,image.width, image.height]);
+    
+};
 /*$(function() {
  FastClick.attach(document.body);
  });*/
@@ -181,17 +189,6 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                     alert('get images from phone: ' + lastModified);
                     var that = this;
                     return function(dfd){
-                       /* var data = {};
-                        if(!lastModified || (lastModified > 1398095441156)){
-                            data.test = {
-                                path: 'http://wesbiomes.weebly.com/uploads/8/8/8/3/8883471/3227190_orig.jpg',
-                                width: 568,
-                                height: 426,
-                                rotate: 0,
-                                modifiedDate: 1398095441156,
-                                imageKey: 'DSC12901398095441156'
-                            }
-                        }*/
                         window.echo(function(data){
                              alert('on success called from window.echo');
                              alert(data);
@@ -200,39 +197,15 @@ var app = angular.module('mylife', ['mylife.directive','mylife.directive2' ]).
                         });
                        
                     }
-
-
-                    /*
-
-                     width:400px
-                     jso.put("width", width);
-                     jso.put("height",height);
-                     jso.put("rotate",rotate);
-                     //jso.put("url", encodeTobase64(scaled));
-                     jso.put("modifiedDate", file1[i].lastModified());
-                     jso.put("imageKey"}  */
-
-                    // onSuccess(data);
-                    /*    window.echo(function () {
-                     var that = this,
-                     args = arguments;
-
-                     if (onSuccess) {
-                     $rootScope.$apply(function () {
-                     onSuccess.apply(that, args);
-                     });
-                     }
-                     }, function () {
-                     var that = this,
-                     args = arguments;
-
-                     if (onError) {
-                     $rootScope.$apply(function () {
-                     onError.apply(that, args);
-                     });
-                     }
-                     },
-                     options);*/
+                },
+                scaleImage: function(image){
+                    return function(dfd){
+                        window.scaleImage(function(data){
+                             alert('on success called from window.scaleImage');
+                             alert(data);
+                             dfd.resolve(data);
+                        }, image);
+                    }
                 }
             };
         }).run(function($rootScope) {
